@@ -1,47 +1,48 @@
-import { Link, Outlet } from "react-router"
-import { useAuth } from "../context/Context"
+import { Link, Outlet } from "react-router";
+import { useAuth } from "../context/Context";
+import styles from "./HeaderLayout.module.css";
 
 function HeaderLayout() {
-    const { user, logout } = useAuth()
+  const { user, logout } = useAuth();
 
-    return (
-        <div>
-            <main >
-                <header >
-                    <h1>Controle Entregas</h1>
-                    {user ? (
-                        <div >
-                            <Link to="/home">
-                                <label >Home</label>
-                            </Link>
+  return (
+    <div className={styles.layout}>
+      <header className={styles.header}>
+        <h1 className={styles.titulo}>Controle Entregas</h1>
+        {user ? (
+          <nav>
+            <Link to="/home" className={styles.link}>
+              Home
+            </Link>
 
-                            <Link to="/historico">
-                                <label >Historico Entregas</label>
-                            </Link>
-                            <span>{user.email}</span>
-                            <button onClick={logout}>Sair</button>
-                        </div>
-                    ) : (
-                        <div>
-                            <Link to="/">
-                                <label >Login</label>
-                            </Link>
+            <Link to="/historico" className={styles.link}>
+              Historico Alterações
+            </Link>
 
-                            <Link to="/cadastro">
-                                <label >Cadastro</label>
-                            </Link>
-                        </div>
+            <span className={styles.userInfo}>{user.email}</span>
 
-                    )}
+            <button onClick={logout} className={styles.btnSair}>
+              Sair
+            </button>
+          </nav>
+        ) : (
+          <nav>
+            <Link to="/" className={styles.link}>
+              Login
+            </Link>
 
-                </header>
-                <section>
-                    <Outlet />
+            <Link to="/cadastro" className={styles.link}>
+              Cadastro
+            </Link>
+          </nav>
+        )}
+      </header>
 
-                </section>
-            </main>
-        </div>
-    )
+      <section className={styles.conteudo}>
+        <Outlet />
+      </section>
+    </div>
+  );
 }
 
-export default HeaderLayout
+export default HeaderLayout;

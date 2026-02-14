@@ -1,8 +1,9 @@
-import FormularioLogin from "../../components/formularioLogin/formularioLogin"
+import FormularioLogin from "../../components/formularioLogin/formularioLogin";
+import styles from "./Login.module.css";
 
 function Login() {
   return (
-    <div>
+    <div className={styles.paginaLogin}>
         <FormularioLogin/>
     </div>
   )

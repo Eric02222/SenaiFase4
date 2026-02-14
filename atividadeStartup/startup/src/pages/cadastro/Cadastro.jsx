@@ -1,8 +1,9 @@
 import FormularioRegistro from "../../components/formularioRegistro/FormularioRegistro"
+import styles from "./Cadastro.module.css";
 
 function Cadastro() {
   return (
-    <div>
+    <div className={styles.paginaCadastro}>
         <FormularioRegistro/>
     </div>
   )

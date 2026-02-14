@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../context/Context";
 import { useNavigate } from "react-router";
 import Modal from "../../components/modal/Modal";
+import axios from "axios";
 import FormularioVeiculos from "../../components/formularioVeiculos/FormularioVeiculos";
+import FormularioVeiculos from "../../components/ConfirmacaoDelecao/ConfirmacaoDelecao";
+import styles from "./Home.module.css";
 
 function Home() {
   const [veiculos, setVeiculos] = useState([]);
@@ -11,8 +14,7 @@ function Home() {
 
   const [modalFormAberto, setModalFormAberto] = useState(false);
   const [modalDeleteAberto, setModalDeleteAberto] = useState(false);
-  const [veiculoSelecionado, setveiculoSelecionado] = useState(null); 
- 
+  const [veiculoSelecionado, setveiculoSelecionado] = useState(null);
 
   useEffect(() => {
     if (!user) {
@@ -37,7 +39,7 @@ function Home() {
   }, [user]);
 
   const abrirModalAdicionar = () => {
-    setveiculoSelecionado(null); 
+    setveiculoSelecionado(null);
     setModalFormAberto(true);
   };
 
@@ -51,74 +53,90 @@ function Home() {
     setModalDeleteAberto(true);
   };
 
-  const reservarVeiculo(veiculo) =>{
-    if (veiculo.status_bateria < 30){
-      alert("Veiculo não pode ser reservado, Bateria abaixo de 30%")
-    }else {
-      alert("Veiculo reservado com sucesso")
+  const reservarVeiculo = (veiculo) => {
+    if (veiculo.status_bateria < 30) {
+      alert("Veículo não pode ser reservado. Bateria abaixo de 30%.");
+    } else {
+      alert("Veículo reservado com sucesso!");
     }
-  }
+  };
 
   return (
-    <div>
-      <h2>Monitoramento de Veiculos</h2>
+    <div className={styles.container}>
 
-      <div>
-        <div>
-          <button onClick={abrirModalAdicionar}>Adicionar Veiculo</button>
-        </div>
-
-        <div>
-          <h2>Veiculos Cadastrados</h2>
-
-          <table>
-            <thead>
-              <tr>
-                <td>Id</td>
-                <td>Nome</td>
-                <td>Modelo</td>
-                <td>Ano</td>
-                <td>Marca</td>
-                <td>Status Bateria</td>
-                <td>Ativo</td>
-                <td>Usuario </td>
-                <td>DataHora Cadastro</td>
-                <td>DataHora Atualização</td>
-              </tr>
-            </thead>
-
-            <tbody>
-              {veiculos.map((veiculo) => (
-                <tr key={veiculo.id_veiculo || veiculo.id}>
-                  <td>{veiculo.id_veiculo || veiculo.id}</td>
-                  <td>{veiculo.nome}</td>
-                  <td>{veiculo.modelo}</td>
-                  <td>{veiculo.ano}</td>
-                  <td>{veiculo.marca}</td>
-                  <td>{veiculo.status_bateria}</td>
-                  <td>{veiculo.ativo === 1 ? "Sim" : "Não"}</td>
-                  <td>{veiculo.dataHora_cadastro}</td>
-
-                  <td>
-                    <button onClick={() => abrirModalEditar(veiculo)}>Editar</button>
-                    <button onClick={() => abrirModalDeletar(veiculo)}>Excluir</button>
-
-                    <button onClick={}>Reservar Veiculo</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          {veiculos.length === 0 && <p>Nenhum veículo cadastrado.</p>}
-        </div>
+      <div className={styles.headerTop}>
+        <h2 className={styles.tituloPrincipal}>Monitoramento de Veiculos</h2>
+        <button onClick={abrirModalAdicionar} className={styles.btnAdicionar}>Adicionar Veiculo</button>
       </div>
 
-      {/* Modal de CADASTRO */}
-      <Modal isOpen={modalFormAberto} onClose={() => setModalCadastroAberto(false)}>
-        <FormularioVeiculos veiculoParaEditar={veiculoSelecionado} onSuccess={getVeiculos} onClose={() => setModalFormAberto(false)} />
+      <div className={styles.card}>
+        <h2 className={styles.tituloCard}>Veiculos Cadastrados</h2>
+
+        <table className={styles.tabela}>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Nome</th>
+              <th>Modelo</th>
+              <th>Ano</th>
+              <th>Marca</th>
+              <th>Status Bateria</th>
+              <th>Ativo</th>
+              <th>Usuario </th>
+              <th>DataHora Cadastro</th>
+              <th>DataHora Atualização</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {veiculos.map((veiculo) => (
+              <tr key={veiculo.id_veiculo}>
+                <td>{veiculo.id_veiculo}</td>
+                <td>{veiculo.nome}</td>
+                <td>{veiculo.modelo}</td>
+                <td>{veiculo.ano}</td>
+                <td>{veiculo.marca}</td>
+                <td>{veiculo.status_bateria}</td>
+                <td>{veiculo.ativo === 1 ? (
+                        <span className={styles.statusAtivo}>Sim</span>
+                    ) : (
+                        <span className={styles.statusInativo}>Não</span>
+                    )}</td>
+                <td>{veiculo.usuario_cadastro}</td>
+                <td>{veiculo.dataHora_atualização}</td>
+
+                <td>
+                  <div className={styles.acoesContainer}>
+                     <button onClick={() => abrirModalEditar(veiculo)} className={`${styles.btnAcao} ${styles.btnEditar}`}>
+                        Editar
+                    </button>
+                    <button onClick={() => abrirModalDeletar(veiculo)} className={`${styles.btnAcao} ${styles.btnExcluir}`}>
+                        Excluir
+                    </button>
+
+                    <button onClick={() => reservarVeiculo(veiculo)} className={`${styles.btnAcao} ${styles.btnReservar}`}>
+                        Reservar Veiculo
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {veiculos.length === 0 && <p className={styles.mensagemVazia}>Nenhum veículo cadastrado.</p>}
+      </div>
+
+      <Modal
+        isOpen={modalFormAberto}
+        onClose={() => setModalFormAberto(false)}
+      >
+        <FormularioVeiculos
+          veiculoParaEditar={veiculoSelecionado}
+          onSuccess={getVeiculos}
+          onClose={() => setModalFormAberto(false)}
+        />
       </Modal>
 
-      {/* Modal de EXCLUSÃO */}
       <Modal
         isOpen={modalDeleteAberto}
         onClose={() => setModalDeleteAberto(false)}
@@ -126,7 +144,7 @@ function Home() {
         <ConfirmacaoDelecao
           veiculo={veiculoSelecionado}
           onClose={() => setModalDeleteAberto(false)}
-          onSucesso={getVeiculos} 
+          onSucesso={getVeiculos}
         />
       </Modal>
     </div>

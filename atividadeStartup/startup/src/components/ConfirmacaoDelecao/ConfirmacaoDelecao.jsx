@@ -1,4 +1,5 @@
 import axios from "axios";
+import styles from "./ConfirmacaoDelecao.module.css"
 
 function ConfirmacaoDelecao({ veiculo, onClose, onSucesso }) {
   const handleDelete = async () => {
@@ -17,20 +18,20 @@ function ConfirmacaoDelecao({ veiculo, onClose, onSucesso }) {
   };
 
   return (
-    <div>
-      <h3>Confirmar Exclusão</h3>
-      <p>
+    <div className={styles.card}>
+      <h3 className={styles.titulo}>Confirmar Exclusão</h3>
+      <p className={styles.texto}>
         Tem certeza que deseja excluir o veículo: <strong>{veiculo?.nome}</strong>?
       </p>
-      <p>
+      <p className={`${styles.texto} ${styles.aviso}`}>
         Essa ação não pode ser desfeita.
       </p>
 
-      <div>
-        <button onClick={handleDelete}>
+      <div className={styles.botoesContainer}>
+        <button onClick={handleDelete} className={`${styles.btnBase} ${styles.btnExcluir}`}>
           Sim, Excluir
         </button>
-        <button onClick={onClose}>
+        <button onClick={onClose} className={`${styles.btnBase} ${styles.btnCancelar}`}>
           Cancelar
         </button>
       </div>

@@ -1,26 +1,63 @@
-.fundoEscuro {
-  background-color: rgba(0, 0, 0, 0.5);
+.overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
+  background-color: rgba(15, 23, 42, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.caixaModal {
-  background-color: white;
+  z-index: 1000; 
   padding: 20px;
-  border-radius: 8px;
-  min-width: 300px;
+  backdrop-filter: blur(2px); 
 }
 
-.botaoFechar {
-  background-color: red;
-  color: white;
+.modal {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 32px 24px 24px; 
+  width: 100%;
+  max-width: fit-content; 
+  min-width: 320px;
+  max-height: 90vh; 
+  overflow-y: auto; 
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  position: relative; 
+  animation: modalAparecer 0.3s ease-out; 
+}
+
+.closeButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
   border: none;
-  padding: 5px 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #64748b;
   cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+}
+
+.closeButton:hover {
+  background-color: #f1f5f9;
+  color: #ef4444; 
+}
+
+@keyframes modalAparecer {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/Context";
-import axios from 'axios'
+import axios from "axios";
+import styles from "./HistoricoAlteracoesVeculos.module.css";
 
 function HistoricoAlteracoesVeculos() {
   const [veiculos, setVeiculos] = useState([]);
@@ -28,51 +29,54 @@ function HistoricoAlteracoesVeculos() {
   }, []);
 
   return (
-    <div>
-      <div>
-        <div>
-          <h2>Historico De Alterações de Veiculos</h2>
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <h2 className={styles.titulo}>Historico De Alterações de Veiculos</h2>
 
-          <table>
-            <thead>
-              <tr>
-                <td>Id</td>
-                <td>Nome</td>
-                <td>Modelo</td>
-                <td>Ano</td>
-                <td>Marca</td>
-                <td>Status Bateria</td>
-                <td>Ativo</td>
-                <td>Usuario </td>
-                <td>DataHora Cadastro</td>
-                <td>DataHora Atualização</td>
-                <td>DataHora Exclusao</td>
+        <table className={styles.tabela}>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Nome</th>
+              <th>Modelo</th>
+              <th>Ano</th>
+              <th>Marca</th>
+              <th>Status Bateria</th>
+              <th>Ativo</th>
+              <th>Usuario </th>
+              <th>DataHora Cadastro</th>
+              <th>DataHora Atualização</th>
+              <th>DataHora Exclusao</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {veiculos.map((veiculo) => (
+              <tr key={veiculo.id_veiculo}>
+                <td>{veiculo.id_veiculo}</td>
+                <td>{veiculo.nome}</td>
+                <td>{veiculo.modelo}</td>
+                <td>{veiculo.ano}</td>
+                <td>{veiculo.marca}</td>
+                <td>{veiculo.status_bateria}</td>
+                <td>
+                  {veiculo.ativo === 1 ? (
+                    <span className={styles.statusAtivo}>Sim</span>
+                  ) : (
+                    <span className={styles.statusInativo}>Não</span>
+                  )}
+                </td>
+                <td>{veiculo.usuario_cadastro}</td>
+                <td>{veiculo.dataHora_cadastro} </td>
+                <td>{veiculo.dataHora_atualização}</td>
+                <td>{veiculo.dataHora_exclusao}</td>
               </tr>
-            </thead>
-
-            <tbody>
-              {veiculos.map((veiculo) => (
-                <tr key={veiculos.id}>
-                  <td>{veiculos.id}</td>
-                  <td>{veiculos.nome}</td>
-                  <td>{veiculos.modelo}</td>
-                  <td>{veiculos.ano}</td>
-                  <td>{veiculos.marca}</td>
-                  <td>{veiculos.status_bateria}</td>
-                  <td>{veiculos.ativo}</td>
-                  <td>{veiculos.dataHora_cadastro} </td>
-                  <td>{veiculos.dataHora_atualização}</td>
-                  <td>{veiculos.dataHora_exclusao}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          {veiculos.length === 0 && (
-            <p>
-              Nenhum veículo encontrado no histórico.
-            </p>
-          )}
-        </div>
+            ))}
+          </tbody>
+        </table>
+        {veiculos.length === 0 && (
+          <p className={styles.mensagemVazia}>Nenhum veículo encontrado no histórico.</p>
+        )}
       </div>
     </div>
   );

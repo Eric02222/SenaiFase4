@@ -1,6 +1,7 @@
 import { useState } from "react"
 import axios from 'axios'
 import { useNavigate } from "react-router"
+import styles from "./FormularioRegistro.module.css";
 
 function FormularioRegistro() {
     const [nome, setNome] = useState('')
@@ -16,7 +17,7 @@ function FormularioRegistro() {
     const handleSenhaChange = (e) => setSenha(e.target.value)
     const handlesenhaConfirmar = (e) => setSenhaConfirmar(e.target.value)
 
-    const senhaValida = () => password.length >= 8 && senha === senhaConfirmar
+    const senhaValida = () => senha.length >= 8 && senha === senhaConfirmar
 
     const resetForm = () => {
         setNome('')
@@ -57,33 +58,36 @@ function FormularioRegistro() {
     }
 
     return (
-        <div>
-            <form action={handleSubmit}>
-                <h2>Criar Usuários</h2>
-                <div>
+        <div className={styles.container}>
+            <form onSubmit={handleSubmit} className={styles.card}>
+                <h2 className={styles.titulo}>Criar Usuários</h2>
+
+                <div className={styles.inputGroup}> 
                     <label htmlFor="nomeRegistro">Nome</label>
-                    <input type="text" id='nomeRegistro' value={nome} onChange={handleNomeChange} />
-                </div>
-                <div>
-                    <label htmlFor="emailRegistro">Email</label>
-                    <input type="text" id='emailRegistro' value={email} onChange={handleEmailChange} />
-                </div>
-                <div>
-                    <label htmlFor="senhaRegistro">Senha</label>
-                    <input type="text" id='senhaRegistro' value={senha} onChange={handleSenhaChange} />
+                    <input type="text" id='nomeRegistro' value={nome} onChange={handleNomeChange} className={styles.input} required />
                 </div>
 
-                <div>
+                <div className={styles.inputGroup}>
+                    <label htmlFor="emailRegistro">Email</label>
+                    <input type="email" id='emailRegistro' value={email} onChange={handleEmailChange} className={styles.input} required/>
+                </div>
+
+                <div className={styles.inputGroup}>
+                    <label htmlFor="senhaRegistro">Senha</label>
+                    <input type="password" id='senhaRegistro' value={senha} onChange={handleSenhaChange} className={styles.input} required/>
+                </div>
+
+                <div className={styles.inputGroup}>
                     <label htmlFor="confirmarSenhaRegistro">Confirmar Senha</label>
-                    <input type="text" id='confirmarSenhaRegistro' value={senhaConfirmar} onChange={handlesenhaConfirmar} />
+                    <input type="password" id='confirmarSenhaRegistro' value={senhaConfirmar} onChange={handlesenhaConfirmar} className={styles.input} required />
 
                     {!senhasConferes && (
-                        <p >Senhas não correspodem</p>
+                        <p className={styles.erroTexto}>Senhas não correspodem</p>
                     )}
                 </div>
 
                 <div >
-                    <button type='submit'>
+                    <button type='submit' className={styles.btnPrincipal}>
                         Criar Usuário
                     </button>
                 </div>

@@ -1,21 +1,14 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-
-import { createBrowserRouter } from 'react-router';
-import { RouterProvider } from 'react-router/dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Login from './pages/login/Login';
 import Cadastro from './pages/cadastro/Cadastro';
 import HeaderLayout from './layout/HeaderLayout';
 import Home from './pages/Home/Home';
-import PaginaLogs from './pages/paginaLogs/PaginaLogs';
+import PaginaLogs from './pages/HistoricoAlteracoesVeculos/HistoricoAlteracoesVeiculos';
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Login />
-  },
-  {
+const router = createBrowserRouter([{
     element: (
       <HeaderLayout />
     ),

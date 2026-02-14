@@ -1,0 +1,80 @@
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8fafc; 
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.header {
+  background-color: #ffffff;
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: sticky; 
+  top: 0;
+  z-index: 50;
+}
+
+.titulo {
+  margin: 0;
+  color: #0f172a;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 24px; 
+}
+
+.link {
+  text-decoration: none;
+  color: #475569;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.2s ease-in-out;
+}
+
+.link:hover {
+  color: #3b82f6; 
+}
+
+.userInfo {
+  color: #64748b;
+  font-size: 0.85rem;
+  margin-right: 8px;
+  padding-left: 16px;
+  border-left: 1px solid #e2e8f0;
+}
+
+.btnSair {
+  padding: 8px 16px;
+  background-color: transparent;
+  color: #ef4444; 
+  border: 1px solid #ef4444;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.btnSair:hover {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+
+.conteudo {
+  flex: 1;
+  padding: 32px;
+  max-width: 1200px;
+  margin: 0 auto; 
+  width: 100%;
+  box-sizing: border-box;
+}

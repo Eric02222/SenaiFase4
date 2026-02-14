@@ -1,0 +1,68 @@
+.card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #334155;
+  text-align: center;
+  margin: 0 auto; 
+}
+
+.titulo {
+  margin-top: 0;
+  color: #0f172a;
+  font-size: 1.25rem;
+  margin-bottom: 16px;
+}
+
+.texto {
+  margin: 8px 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.aviso {
+  color: #dc2626;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.botoesContainer {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.btnBase {
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.btnExcluir {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+.btnExcluir:hover {
+  background-color: #dc2626;
+  box-shadow: 0 2px 4px rgba(220, 38, 38, 0.3);
+}
+
+.btnCancelar {
+  background-color: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+}
+
+.btnCancelar:hover {
+  background-color: #e2e8f0;
+  color: #0f172a;
+}
