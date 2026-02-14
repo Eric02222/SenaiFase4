@@ -41,12 +41,12 @@ function FormularioRegistro() {
                 senha: senha
             }
 
-            await axios.post('http://localhost:4000/usuarios/register', data)
+            await axios.post('http://localhost:3000/auth/register', data)
 
             resetForm()
 
             alert('Conta criada com sucesso!')
-            navigate('/login')
+            navigate('/')
            
 
         }

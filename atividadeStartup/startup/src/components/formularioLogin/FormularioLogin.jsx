@@ -28,7 +28,7 @@ function FormularioLogin() {
                 email: email,
                 senha: senha
             }
-             const res = await axios.post('http://localhost:3000/usuarios/login', data)
+             const res = await axios.post('http://localhost:3000/auth/login', data)
 
             if (res.data.length === 0) {
                 return alert('Usuario não encontrado')
