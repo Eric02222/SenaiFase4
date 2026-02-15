@@ -14,7 +14,7 @@ class AuthController {
                 return res.status(400).json({ error: "Email e senha são obrigatórios" });
             }
 
-            const [users] = await db.query("SELECT * FROM usuarios WHERE email = ?", [email]);
+            const [users] = await db.query("SELECT * FROM usuario WHERE email = ?", [email]);
 
             if (users.length > 0) {
                 return res.status(409).json({ error: "Usuário já existe" });
@@ -24,7 +24,7 @@ class AuthController {
                 nome, email, senha
             ];
 
-            const [result] = await db.query(`INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)`, values);
+            const [result] = await db.query(`INSERT INTO usuario (nome, email, senha) VALUES (?, ?, ?)`, values);
 
             return res.status(201).json({
                 message: "Usuário criado com sucesso",
@@ -45,7 +45,7 @@ class AuthController {
         try {
             const { email, senha } = req.body;
 
-            const [users] = await db.query("SELECT * FROM usuarios WHERE email = ?", [email]);
+            const [users] = await db.query("SELECT * FROM usuario WHERE email = ?", [email]);
 
             if (users.length === 0) {
                 return res.status(401).json({ error: "Credenciais inválidas" });

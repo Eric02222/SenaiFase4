@@ -5,13 +5,14 @@ import styles from "./FormularioVeiculos.module.css";
 
 function FormularioVeiculos({ veiculoParaEditar, onSuccess, onClose }) {
   const { user } = useAuth();
+  const usuario = user?.data?.usuario?.id_usuario;
   const [formData, setFormData] = useState({
     nome: "",
     modelo: "",
     ano: "",
     marca: "",
     status_bateria: "",
-    usuario_cadastro: user.id_usuario || "",
+    usuario_cadastro: usuario || "",
     ativo: 1,
   });
 
@@ -29,7 +30,6 @@ function FormularioVeiculos({ veiculoParaEditar, onSuccess, onClose }) {
         ativo: veiculoParaEditar.ativo,
       });
     } else {
-      // Se não tem veículo (clicou em Adicionar), garante que o form fica limpo
       resetForm();
     }
   }, [veiculoParaEditar, user]);
@@ -49,6 +49,7 @@ function FormularioVeiculos({ veiculoParaEditar, onSuccess, onClose }) {
       ano: "",
       marca: "",
       status_bateria: "",
+      usuario_cadastro: usuario,
       ativo: 1,
     });
   };
@@ -58,6 +59,7 @@ function FormularioVeiculos({ veiculoParaEditar, onSuccess, onClose }) {
     try {
       const dataToSave = {
         ...formData,
+        usuario_cadastro: usuario,
       };
 
       if (veiculoParaEditar && veiculoParaEditar.id_veiculo) {
@@ -74,6 +76,7 @@ function FormularioVeiculos({ veiculoParaEditar, onSuccess, onClose }) {
       if (onClose) onClose();
     } catch (e) {
       alert("Erro ao enviar informações!");
+      console.error(e);
     }
   };
   return (
@@ -100,8 +103,7 @@ function FormularioVeiculos({ veiculoParaEditar, onSuccess, onClose }) {
               />
             </div>
 
-            <div>
-              className={styles.inputGroup}
+            <div className={styles.inputGroup}>
               <label htmlFor="modelo">Modelo Veiculo:</label>
               <input
                 type="text"
@@ -175,22 +177,6 @@ function FormularioVeiculos({ veiculoParaEditar, onSuccess, onClose }) {
                 </label>
               </div>
             </div>
-          </div>
-
-          <div className={`${styles.botoesContainer} ${styles.fullWidth}`}>
-            <button className={styles.btnPrincipal} type="submit">
-              {isEditing ? "Salvar Alterações" : "Cadastrar Veículo"}
-            </button>
-
-            {onClose && (
-              <button
-                type="button"
-                className={styles.btnCancelar}
-                onClick={onClose}
-              >
-                Cancelar
-              </button>
-            )}
           </div>
 
           <div className={`${styles.botoesContainer} ${styles.fullWidth}`}>

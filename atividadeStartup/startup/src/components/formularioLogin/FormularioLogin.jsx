@@ -41,7 +41,7 @@ function FormularioLogin() {
             resetForm()
             login(dataUsuario)
             alert("login efetuado com sucesso");
-            navigate('/main')
+            navigate('/home')
         } catch (error) {
             console.error("Erro ao criar usuario", error)
             alert('Erro ao criar usuario')
@@ -58,7 +58,7 @@ function FormularioLogin() {
                     <input type="email" id='emailLogin' value={email} onChange={handleEmailChange} required className={styles.input}/>
                 </div>
 
-                <div>
+                <div className={styles.inputGroup}>
                     <label htmlFor="senhaLogin" className={styles.label}>Senha</label>
                     <input type="password" id='senhaLogin' value={senha} onChange={handleSenhaChange} required className={styles.input}/>
                     

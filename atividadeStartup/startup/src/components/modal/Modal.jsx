@@ -1,9 +1,10 @@
 import styles from "./Modal.module.css";
+import { createPortal } from 'react-dom';
 
 const Modal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div className={styles.overlay}>
       <div className={styles.modal}>
         <button onClick={onClose} className={styles.closeButton}>
@@ -12,7 +13,8 @@ const Modal = ({ isOpen, onClose, children }) => {
 
         {children}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

@@ -71,23 +71,13 @@ class VeiculosController {
       marca,
       status_bateria,
       usuario_cadastro,
-      dataHora_cadastro,
       ativo,
     } = req.body;
     console.log(req.body);
     try {
       const [result] = await db.query(
         "INSERT INTO Veiculo (nome, modelo, ano, marca, status_bateria, usuario_cadastro, dataHora_cadastro, ativo) VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIME(), ?)",
-        [
-          nome,
-          modelo,
-          ano,
-          marca,
-          status_bateria,
-          usuario_cadastro,
-          dataHora_cadastro,
-          ativo,
-        ],
+        [nome, modelo, ano, marca, status_bateria, usuario_cadastro, ativo]
       );
       const [novoVeiculo] = await db.query(
         "SELECT * FROM veiculo WHERE id_veiculo = ?",
@@ -109,7 +99,6 @@ class VeiculosController {
       ano,
       marca,
       status_bateria,
-      dataHora_atualização,
       ativo,
     } = req.body;
 
@@ -135,8 +124,8 @@ class VeiculosController {
       }
 
       const [result] = await db.query(
-        "UPDATE Veiculo SET nome = ?, modelo = ?, ano = ?, marca = ?, status_bateria = ?, dataHora_atualização = CURRENT_TIME(), ativo = ?",
-        [nome, modelo, ano, marca, status_bateria, dataHora_atualização, ativo],
+        "UPDATE Veiculo SET nome = ?, modelo = ?, ano = ?, marca = ?, status_bateria = ?, dataHora_atualização = CURRENT_TIME(), ativo = ? WHERE id_veiculo = ?",
+        [nome, modelo, ano, marca, status_bateria, ativo, id]
       );
 
       if (result.affectedRows === 0) {

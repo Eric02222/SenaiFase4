@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/Context";
 import axios from "axios";
-import styles from "./HistoricoAlteracoesVeculos.module.css";
+import styles from '../HistoricoAlteracoesVeculos/HistoricoAlteracoesVeculos.module.css';
 
 function HistoricoAlteracoesVeculos() {
   const [veiculos, setVeiculos] = useState([]);

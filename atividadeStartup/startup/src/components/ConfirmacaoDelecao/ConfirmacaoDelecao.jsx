@@ -5,14 +5,14 @@ function ConfirmacaoDelecao({ veiculo, onClose, onSucesso }) {
   const handleDelete = async () => {
     try {
       await axios.delete(
-        `http://localhost:3000/veiculos/${veiculo.id}`,
+        `http://localhost:3000/veiculos/${veiculo.id_veiculo}`,
       );
 
       alert("Veículo excluído com sucesso!");
       onSucesso();
       onClose(); 
     } catch (e) {
-      console.e("Erro ao deletar:", e);
+      console.log("Erro ao deletar:", e);
       alert("Erro ao excluir o veículo.");
     } 
   };

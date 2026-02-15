@@ -12,8 +12,8 @@ veiculosRoutes.get("/veiculos/usuario/:id", veiculosController.getVeiculosPorIdU
 
 veiculosRoutes.post("/veiculos", veiculosController.postVeiculos);
 
-veiculosRoutes.put("/veiculos", veiculosController.putVeiculos);
+veiculosRoutes.put("/veiculos/:id", veiculosController.putVeiculos);
 
-veiculosRoutes.delete("/veiculos", veiculosController.deleteVeiculos);
+veiculosRoutes.delete("/veiculos/:id", veiculosController.deleteVeiculos);
 
 export default veiculosRoutes;

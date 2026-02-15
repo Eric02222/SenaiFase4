@@ -10,7 +10,7 @@ function HeaderLayout() {
       <header className={styles.header}>
         <h1 className={styles.titulo}>Controle Entregas</h1>
         {user ? (
-          <nav>
+          <nav className={styles.nav}>
             <Link to="/home" className={styles.link}>
               Home
             </Link>
@@ -26,7 +26,7 @@ function HeaderLayout() {
             </button>
           </nav>
         ) : (
-          <nav>
+          <nav className={styles.nav}>
             <Link to="/" className={styles.link}>
               Login
             </Link>

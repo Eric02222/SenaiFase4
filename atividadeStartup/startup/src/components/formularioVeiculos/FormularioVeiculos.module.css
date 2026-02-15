@@ -1,19 +1,9 @@
+
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  min-height: 100vh; 
-  background-color: #f8fafc;
+  width: 100%;
 }
 
 .card {
-  background-color: #ffffff;
-  border-radius: 8px;
-  padding: 32px 24px;
-  width: 100%;
-  max-width: 600px; 
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   color: #334155;
 }
@@ -49,6 +39,8 @@
 }
 
 .input {
+  width: 100%;
+  box-sizing: border-box;
   padding: 10px 12px;
   border: 1px solid #cbd5e1;
   border-radius: 6px;

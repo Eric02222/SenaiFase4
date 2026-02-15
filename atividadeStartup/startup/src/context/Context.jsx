@@ -1,43 +1,43 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState, useEffect } from "react";
 
-const AuthContext = createContext()
+const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    
-    useEffect(() => {
-        const carregarUsuarioArmazenado = () => {
-            const storedUser = localStorage.getItem("user");
-            
-            if (storedUser) {
-                try {
-                    const parsedUser = JSON.parse(storedUser);
-                    setUser(parsedUser);
-                } catch (error) {
-                    console.error("Erro ao ler dados do usuário:", error);
-                    localStorage.removeItem("user"); 
-                }
-            }
-        };
-        carregarUsuarioArmazenado();
-    }, []);
+  const [user, setUser] = useState(null);
 
-    const login = (userData) => {
-        localStorage.setItem("user", JSON.stringify(userData));
-        setUser( userData )
-    }
+  useEffect(() => {
+    const carregarUsuarioArmazenado = () => {
+      const storedUser = localStorage.getItem("user");
 
-    const logout = () => {
-        alert("Voce saiu de sua conta")
-        localStorage.removeItem("user")
-        setUser(null)
-    }
+      if (storedUser) {
+        try {
+          const parsedUser = JSON.parse(storedUser);
+          setUser(parsedUser);
+        } catch (error) {
+          console.error("Erro ao ler dados do usuário:", error);
+          localStorage.removeItem("user");
+        }
+      }
+    };
+    carregarUsuarioArmazenado();
+  }, []);
 
-    return (
-        <AuthContext.Provider value={{ user, setUser, login, logout }}>
-            {children}
-        </AuthContext.Provider>
-    )
-}
+  const login = (userData) => {
+    localStorage.setItem("user", JSON.stringify(userData));
+    setUser(userData);
+  };
 
-export const useAuth = () => useContext(AuthContext)
+  const logout = () => {
+    alert("Voce saiu de sua conta");
+    localStorage.removeItem("user");
+    setUser(null);
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, setUser, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => useContext(AuthContext);
