@@ -77,19 +77,19 @@ function FormularioCadastro() {
 
                 <div className="form-group mb-3">
                     <label htmlFor="senhaRegistro">Senha</label>
-                    <input type="password" id='senhaRegistro' className="form-control" value={senha} onChange={handleSenhaChange} maxLength="8" placeholder='********' required />
+                    <input type="password" id='senhaRegistro' className="form-control" value={senha} onChange={handleSenhaChange} placeholder='********' required />
                 </div>
 
                 <div className="form-group mb-3">
                     <label htmlFor="confirmarSenhaRegistro" className='form-label'>Confirmar Senha</label>
-                    <input type="password" id='confirmarSenhaRegistro' className="form-control" value={senhaConfirmar} onChange={handlesenhaConfirmar} maxLength="8" placeholder='********' required />
+                    <input type="password" id='confirmarSenhaRegistro' className="form-control" value={senhaConfirmar} onChange={handlesenhaConfirmar} placeholder='********' required />
 
                     {!senhasConferes && (
                         <p>Senhas não correspodem</p>
                     )}
                 </div>
 
-                <select nome="tipoUsuario" id='tipoUsuario' className='form-select' value={tipoUsuario} onChange={handleTipoUsuario}>
+                <select nome="tipoUsuario" id='tipoUsuario' className='form-select mb-3' value={tipoUsuario} onChange={handleTipoUsuario}>
                     <option value={1}>Usuario Normal</option>
                     <option value={2}>Administrador</option>
 

@@ -18,6 +18,10 @@ function FormularioLogins() {
         setSenha('')
     }
 
+    const esqueciSenha = () => {
+        navigate('/esquciSenha')
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
@@ -29,7 +33,7 @@ function FormularioLogins() {
             // const res = await axios.post('http://localhost:3001/login', data)
             const res = await LogarUsuario(data)
             console.log(res)
-            if (res.data.length === 0) {
+            if (res.length === 0) {
                 return alert('Usuario não encontrado')
             }
 
@@ -63,10 +67,10 @@ function FormularioLogins() {
 
                 <div className="form-group mb-3">
                     <label htmlFor="senhaRegistro" className='form-label'>Senha</label>
-                    <input type="password" id='senhaRegistro' className="form-control" value={senha} onChange={handleSenhaChange} maxLength="8" placeholder='********' required />
+                    <input type="password" id='senhaRegistro' className="form-control" value={senha} onChange={handleSenhaChange} placeholder='********' required />
                 </div>
 
-                {/* <a onClick={esqueciSenha}>Esqueci minha senha</a> */}
+                <a onClick={esqueciSenha}>Esqueci minha senha</a>
 
                 <button type='submit' className="btn btn-primary" >
                     Entrar Usuário

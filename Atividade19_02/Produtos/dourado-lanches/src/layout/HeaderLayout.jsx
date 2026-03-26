@@ -10,7 +10,7 @@ function HeaderLayout() {
         <h1>Sistema teste</h1>
         {user ? (
           <nav>
-            <span>{user.data.usuario.email}</span>
+            <span>{user.usuario.email}</span>
 
             <button onClick={logout} >
               Sair
