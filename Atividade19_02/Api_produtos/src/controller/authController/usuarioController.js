@@ -25,7 +25,6 @@ const createUser = async (req, res) => {
     }
 }
 
-
 const loginUser = async (req, res) => {
     try {
         const { email, senha } = req.body
@@ -80,6 +79,32 @@ const loginUser = async (req, res) => {
     } catch (error) {
         console.error("Erro no login:", error);
         return res.status(500).json({ message: "Erro ao criar usuario", error: error.message })
+    }
+}
+
+const getUsuarios = async (req, res) => {
+    try {
+        const [rows] = await db.query("SELECT id, nome, email, tipo_usuario FROM usuario");
+        return res.status(200).json({ success: true, data: rows });
+    } catch (error) {
+        console.error("Erro ao buscar usuários:", error);
+        return res.status(500).json({ message: "Erro ao buscar usuários", error: error.message });
+    }
+}
+
+const getUsuarioById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const [rows] = await db.query("SELECT id, nome, email, tipo_usuario FROM usuario WHERE id = ?", [id]);
+
+        if (rows.length === 0) {
+            return res.status(404).json({ message: "Usuário não encontrado", success: false });
+        }
+
+        return res.status(200).json({ success: true, data: rows[0] });
+    } catch (error) {
+        console.error("Erro ao buscar usuário:", error);
+        return res.status(500).json({ message: "Erro ao buscar usuário", error: error.message });
     }
 }
 
@@ -139,4 +164,57 @@ const esqueciSenha = async (req, res) => {
     }
 }
 
-export { createUser, loginUser, esqueciSenha };
+const editarUsuario = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { nome, email, tipo_usuario } = req.body;
+
+        if (!id) {
+            return res.status(400).json({ message: "O ID do usuário é obrigatório.", success: false });
+        }
+
+        if (!nome || !email || nome === "" || email === "") {
+            return res.status(400).json({ message: "Nome e email são obrigatórios e não podem estar vazios.", success: false });
+        }
+
+        const [result] = await db.query(
+            "UPDATE usuario SET nome = ?, email = ?, tipo_usuario = ? WHERE id = ?",
+            [nome, email, tipo_usuario, id]
+        );
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Usuário não encontrado ou nenhuma alteração foi feita.", success: false });
+        }
+
+        return res.status(200).json({ message: "Usuário atualizado com sucesso.", success: true });
+    } catch (error) {
+        console.error("Erro ao editar usuário:", error);
+        return res.status(500).json({ message: "Erro interno ao atualizar usuário.", error: error.message });
+    }
+}
+
+const excluirUsuario = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ message: "O ID do usuário é obrigatório.", success: false });
+        }
+
+        await db.query("DELETE FROM token WHERE usuario = ?", [id]);
+
+        const [result] = await db.query("DELETE FROM usuario WHERE id = ?", [id]);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Usuário não encontrado.", success: false });
+        }
+
+        return res.status(200).json({ message: "Usuário excluído com sucesso.", success: true });
+    } catch (error) {
+        console.error("Erro ao excluir usuário:", error);
+        return res.status(500).json({ message: "Erro interno ao excluir usuário.", error: error.message });
+    }
+}
+
+
+export { createUser, loginUser, esqueciSenha, getUsuarios, getUsuarioById ,editarUsuario, excluirUsuario };

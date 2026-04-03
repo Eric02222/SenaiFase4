@@ -1,35 +1,14 @@
 import { Link, Outlet } from "react-router";
 import { useAuth } from "../context/Context";
+import Navbar from "../components/Navbar/Navbar";
 
 function HeaderLayout() {
-  const { user, logout } = useAuth();
 
   return (
-    <div >
-      <header >
-        <h1>Sistema teste</h1>
-        {user ? (
-          <nav>
-            <span>{user.usuario.email}</span>
+    <div className="min-vh-100 bg-light">
+      <Navbar/>
 
-            <button onClick={logout} >
-              Sair
-            </button>
-          </nav>
-        ) : (
-          <nav>
-            <Link to="/" >
-              Login
-            </Link>
-
-            <Link to="/cadastro" >
-              Cadastro
-            </Link>
-          </nav>
-        )}
-      </header>
-
-      <section>
+      <section className="container mt-4 p-4 bg-white shadow-sm rounded">
         <Outlet />
       </section>
     </div>

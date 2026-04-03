@@ -119,9 +119,8 @@ function Produto() {
     }
 
     return (
-        <div className="container">
-            <h2>Dourado Lanches</h2>
-
+        <div className="container mt-4">
+            <h2>Gerenciamento de Produtos</h2>
             <button className="btn btn-warning" onClick={abrirModalAdicionar}>
                 Adicionar
             </button>

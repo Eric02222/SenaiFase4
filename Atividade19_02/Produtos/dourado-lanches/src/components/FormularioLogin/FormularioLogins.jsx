@@ -70,11 +70,17 @@ function FormularioLogins() {
                     <input type="password" id='senhaRegistro' className="form-control" value={senha} onChange={handleSenhaChange} placeholder='********' required />
                 </div>
 
-                <a onClick={esqueciSenha}>Esqueci minha senha</a>
+                <div className="d-flex justify-content-center mb-4">
+                    <a onClick={esqueciSenha} className="text-decoration-none text-primary small fw-bold" role="button" style={{ cursor: 'pointer' }}>Esqueci minha senha</a>
 
-                <button type='submit' className="btn btn-primary" >
-                    Entrar Usuário
-                </button>
+                </div>
+
+                <div className="d-flex justify-content-center ">
+                    <button type='submit' className="btn btn-primary fw-bold" >
+                        Entrar Usuário
+                    </button>
+                </div>
+
 
             </form>
 

@@ -44,7 +44,6 @@ function FormularioCadastro() {
                 senha: senha,
                 tipo_usuario: tipoUsuario
             }
-            // await axios.post('http://localhost:3001/registro', data)
             await CriarUsuario(data)
 
             resetForm()
@@ -95,7 +94,9 @@ function FormularioCadastro() {
 
                 </select>
 
-                {/* <div>
+                {/* jeito alternativo
+                
+                <div>
                     <label >
                         <input
                             type="radio"
@@ -117,8 +118,8 @@ function FormularioCadastro() {
                     </label>
                 </div> */}
 
-                <div >
-                    <button type='submit' className="btn btn-primary">
+                <div className="d-flex justify-content-center ">
+                    <button type='submit' className="btn btn-primary fw-bold">
                         Criar Usuário
                     </button>
                 </div>

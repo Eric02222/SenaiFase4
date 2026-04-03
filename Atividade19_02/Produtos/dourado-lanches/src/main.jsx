@@ -9,6 +9,10 @@ import Cadastro from "./pages/Cadastro/Cadastro";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Produto from './components/Produto/Produto';
 import RecuperarSenha from './pages/RecuperarSenha/RecuperarSenha';
+import ListaUsuarios from './pages/ListaUsuarios/ListaUsuarios';
+import Error from './pages/Error';
+import Home from './pages/Home/Home';
+
 
 const router = createBrowserRouter([
   {
@@ -16,8 +20,11 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Login /> },
       { path: "cadastro", element: <Cadastro /> },
+      { path: "home", element: <Home /> },
       { path: "produtos", element: <Produto /> },
       { path: "esquciSenha", element: <RecuperarSenha /> },
+      { path: "usuario", element: <ListaUsuarios /> },
+      { path: "*", element: <Error /> },
 
     ],
   },
