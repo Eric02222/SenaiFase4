@@ -1,0 +1,35 @@
+comando instalar prisma e configurar:
+
+npm init -y
+
+npm install cors express nodemon dotenv @prisma/client 
+
+npm install -D prisma
+
+////////////////////////////
+
+cria pasta prisma junsto do arquivo schema, .env e prisma.config.ts:
+
+npx prisma init
+
+////////////////////////////
+
+extensão Chamado para deixar com visual semelhante ao codigos: 
+
+extensão: Prisma 
+
+////////////////////////////
+
+configurar .env:
+
+DATABASE_URL="mysql://NOME-USUARIO-DA-MAQUINA:SENHA-USUARIODA-MAQUINA@localhost:3306/NOME-BANCO-DE-DADOS"
+
+////////////////////////////
+
+comandos prisma:
+
+npx prisma migrate dev --name init
+
+////////////////////////////
+
+prisma é um ORM object-relation-mapping, que liga ao banco de dados, aplicado para segurança enre outras funcionalidades uteis
