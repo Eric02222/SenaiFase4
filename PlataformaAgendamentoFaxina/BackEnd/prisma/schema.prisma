@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model usuario {
+  id       Int      @id @default(autoincrement())
+  nome     String
+  email    String
+  senha    String   @db.VarChar(255)
+  cpf      String   @unique(map: "Usuario_cpf_key")
+  createAt DateTime @default(now())
+}
+
+model agenda {
+  id          Int      @id @default(autoincrement())
+  usuario_id  Int
+  data        DateTime
+  endereco    String
+  tipoServico String
+  createAt    DateTime @default(now())
+}

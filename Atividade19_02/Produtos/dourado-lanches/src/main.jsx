@@ -4,7 +4,7 @@ import './index.css'
 import HeaderLayout from "./layout/HeaderLayout";
 import { AuthProvider } from "./context/Context";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Login from "./pages/Login/Login";
+import Login from "./pages/Login/Login.jsx";
 import Cadastro from "./pages/Cadastro/Cadastro";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Produto from './components/Produto/Produto';
