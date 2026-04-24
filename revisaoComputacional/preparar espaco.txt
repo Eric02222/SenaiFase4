@@ -1,0 +1,16 @@
+//verificar versão python
+python --version
+
+
+//comandos para instalar e preparar o venv
+python -m venv .venv
+
+.venv/scripts/Activate
+
+
+//comando atualizar pip
+python -m pip install --upgrade pip
+
+
+//comando instalar opencv
+pip install opencv-python
