@@ -17,9 +17,9 @@ CREATE TABLE funcionario (
     email VARCHAR(45),
     senha VARCHAR(45),
     cpf VARCHAR(45) UNIQUE,
-    numero_telefone VARCHAR(45),
 	endereco VARCHAR(45),
-    ativo BOOLEAN
+    numero_telefone VARCHAR(45),
+    ativo BOOLEAN DEFAULT 1
 );
 
 CREATE TABLE agendamento (
@@ -27,7 +27,7 @@ CREATE TABLE agendamento (
     data_servico DATETIME,
 	data_criado DATETIME,
     data_finalizado DATETIME,
-    ativo BOOLEAN,
+    ativo BOOLEAN, DEFAULT 1
 	cliente_id INT,
     funcionario_id INT,
     FOREIGN KEY (cliente_id)
