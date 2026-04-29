@@ -62,47 +62,48 @@ function CadastroForm() {
   }
 
   return (
-    <div>
-      <h2>Criar Conta</h2>
+    <div className='container'>
 
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="nomeCadastro">Nome</label>
-          <input type="text" id='nomeCadastro' value={nome} onChange={handleNomeChange} required/>
+        <h2>Criar Conta</h2>
+
+        <div className="form-group mb-3">
+          <label htmlFor="nomeCadastro" className='form-label'>Nome</label>
+          <input type="text" className="form-control" id='nomeCadastro' value={nome} onChange={handleNomeChange} required />
         </div>
 
-        <div>
-          <label htmlFor="emailCadastro">Email</label>
-          <input type="email" id='emailCadastro' value={email} onChange={handleEmailChange} required/>
+        <div className="form-group mb-3">
+          <label htmlFor="emailCadastro" className='form-label'>Email</label>
+          <input type="email" className="form-control" id='emailCadastro' value={email} onChange={handleEmailChange} required />
         </div>
 
-        <div>
-          <label htmlFor="cpfCadastro">Cpf</label>
-          <input type="text" id='cpfCadastro' value={cpf} onChange={handleCpfChange} maxLength="11" required/>
+        <div className="form-group mb-3">
+          <label htmlFor="cpfCadastro" className='form-label'>Cpf</label>
+          <input type="text" className="form-control" id='cpfCadastro' value={cpf} onChange={handleCpfChange} maxLength="11" required />
         </div>
 
-        <div>
-          <label htmlFor="enderecoCadastro">Endereço</label>
-          <input type="text" id='enderecoCadastro' value={endereco} onChange={handleEnderecoChange} required/>
+        <div className="form-group mb-3">
+          <label htmlFor="enderecoCadastro" className='form-label'>Endereço</label>
+          <input type="text" className="form-control" id='enderecoCadastro' value={endereco} onChange={handleEnderecoChange} required />
         </div>
 
-        <div>
-          <label htmlFor="telefoneCadastro">Numero Telefone</label>
-          <input type="text" id='telefoneCadastro' value={telefone} onChange={handleTelefoneChange} required/>
+        <div className="form-group mb-3">
+          <label htmlFor="telefoneCadastro" className='form-label'>Numero Telefone</label>
+          <input type="text" className="form-control" id='telefoneCadastro' value={telefone} onChange={handleTelefoneChange} required />
         </div>
 
-        <div>
-          <label htmlFor="senhaCadastro">Senha</label>
-          <input type="password" id='senhaCadastro' value={senha} onChange={handlesenhaChange} required />
+        <div className="form-group mb-3">
+          <label htmlFor="senhaCadastro" className='form-label'>Senha</label>
+          <input type="password" className="form-control" id='senhaCadastro' value={senha} onChange={handlesenhaChange} required />
         </div>
 
-        <div>
-          <label htmlFor="confirmarSenhaCadastro">Confirmar Senha</label>
-          <input type="password" id='confirmarSenhaCadastro' value={confirmarSenha} onChange={handleConfirmarSenhaChange} required/>
+        <div className="form-group mb-3">
+          <label htmlFor="confirmarSenhaCadastro" className='form-label'>Confirmar Senha</label>
+          <input type="password" className="form-control" id='confirmarSenhaCadastro' value={confirmarSenha} onChange={handleConfirmarSenhaChange} required />
         </div>
 
-        <div>
-          <button type='submit'>Criar Conta</button>
+        <div className="d-flex justify-content-center ">
+          <button type='submit' className="btn btn-primary fw-bold">Criar Conta</button>
         </div>
 
       </form>

@@ -2,8 +2,8 @@ import React from 'react'
 
 function PaginaError() {
   return (
-    <div>
-      <h2>Pagina Invalida</h2>
+    <div className="text-center mx-auto" >
+        <h1>404 - Esta página não existe</h1>
     </div>
   )
 }

@@ -4,10 +4,10 @@ import Navbar from "../components/Navbar/Navbar";
 function Layout() {
 
     return(
-        <div>
+        <div className="min-vh-100 bg-light">
             <Navbar/>
 
-            <section>
+            <section className="container ">
                 <Outlet/>
             </section>
         </div>

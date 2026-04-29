@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import {createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { AuthProvider } from './context/context.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Login from './pages/Login/Login.jsx'
 import Cadastro from './pages/Cadastro/Cadastro.jsx'
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
       { path: "/home", element: <Home /> },
       { path: "/agendamentos", element: <Agendamentos /> },
       { path: "/historico", element: <HistoricoAgendamentos /> },
-      {path: "/esqueciSenha", element: <RecuperarSenha/> },
+      { path: "/esqueciSenha", element: <RecuperarSenha /> },
       { path: "*", element: <PaginaError /> }
     ],
   }
@@ -28,8 +29,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-      <RouterProvider router={router}/>
-    {/* <AuthProvider>
-    </AuthProvider> */}
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 )

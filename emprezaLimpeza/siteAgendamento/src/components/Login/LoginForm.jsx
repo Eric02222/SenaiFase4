@@ -1,8 +1,10 @@
 import { useState } from "react"
-import {useNavigate} from "react-router"
+import { useNavigate } from "react-router"
 import { login } from "../../services/login"
+import { useAuth } from "../../context/context"
 
 function LoginForm() {
+  const { login } = useAuth()
   const [email, setEmail] = useState("")
   const [senha, setSenha] = useState("")
 
@@ -26,10 +28,16 @@ function LoginForm() {
       }
       const res = await login(data);
       console.log(res)
-      
-      if(res.length === 0 ){
+
+      if (res.length === 0) {
         return alert("Usuario não encontrado")
       }
+
+      const dataUsuario = {
+        ...res
+      }
+
+      login(dataUsuario)
 
       resetForm()
       alert("Login efetuado com sucesso")
@@ -43,27 +51,27 @@ function LoginForm() {
   function esqueciSenha() {
     navigate("/esqueciSenha")
   }
+
   return (
-    <div>
-      <h2>Login</h2>
-
+    <div className='container'>
       <form onSubmit={handleSubmit}>
-        <div>
+        <h2>Login</h2>
+        <div className="form-group mb-3">
           <label htmlFor="emailLogin">Email</label>
-          <input type="email" id="emailLogin" value={email} onChange={handleEmailChange} required/>
+          <input type="email" className="form-control" id="emailLogin" value={email} onChange={handleEmailChange} required />
         </div>
 
-        <div>
+        <div className="form-group mb-3">
           <label htmlFor="senhaLogin">Senha</label>
-          <input type="password" id="senhaLogin" value={senha} onChange={handlepasswordChange} required/>
+          <input type="password" className="form-control" id="senhaLogin" value={senha} onChange={handlepasswordChange} required />
         </div>
 
-        <div>
-          <a onClick={esqueciSenha} role="button" style={{ cursor: 'pointer' }}>Esqueceu sua Senha?</a>
+        <div className="d-flex justify-content-center mb-4">
+          <a onClick={esqueciSenha} className="text-decoration-none text-primary small fw-bold" role="button" style={{ cursor: 'pointer' }}>Esqueceu sua Senha?</a>
         </div>
 
-        <div>
-          <button type="submit">Entrar Usuario</button>
+        <div className="d-flex justify-content-center ">
+          <button type="submit" className="btn btn-primary fw-bold">Entrar Usuario</button>
         </div>
       </form>
     </div>

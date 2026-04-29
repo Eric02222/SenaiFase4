@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar/Navbar";
 function HeaderLayout() {
 
   return (
-    <div className="min-vh-100 bg-light">
+    <div  >
       <Navbar/>
 
       <section className="container mt-4 p-4 bg-white shadow-sm rounded">
