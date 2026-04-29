@@ -7,8 +7,7 @@ const db = mysql.createPool({
   host: process.env.DB_HOST || "localhost",
   user: process.env.DB_USER || "root",
   password: process.env.DB_PASSWORD || "senai",
-  database: process.env.DB_DATABASE || "agendamento_faxina",
-  port: "3306",
+  database: process.env.DB_DATABASE || "agendamento_faxina"
 });
 
 export default db;

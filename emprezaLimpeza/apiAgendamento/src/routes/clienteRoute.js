@@ -1,14 +1,12 @@
 import express from "express";
 import {
-  createCliente, getCliente, getClienteById, esqueciSenha, editarCliente, excluirCliente
-} from "../controller/clienteController";
+  createCliente, getCliente, getClienteById, editarCliente, excluirCliente
+} from "../controller/clienteController.js";
 
 
 const clienteRoutes = express.Router();
 
 clienteRoutes.post("/cliente", createCliente);
-
-clienteRoutes.post("/cliente/esqueciSenha", esqueciSenha);
 
 clienteRoutes.get("/cliente", getCliente);
 

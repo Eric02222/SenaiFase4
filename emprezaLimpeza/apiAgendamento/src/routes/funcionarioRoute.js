@@ -1,7 +1,7 @@
 import express from "express";
 import {
   createFuncionario, getfuncionario, getfuncionarioById, esqueciSenha, editarfuncionario, excluirfuncionario
-} from "../controller/funcionarioController";
+} from "../controller/funcionarioController.js";
 
 
 const funcionarioRoutes = express.Router();

@@ -60,6 +60,52 @@ const getAgendaById = async (req, res) => {
   }
 };
 
+
+
+const getAgendaByIdClient = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [rows] = await db.query("SELECT * FROM agendamento WHERE cliente_id = ?", [
+      id,
+    ]);
+
+    if (rows.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "Agendamento não encontrado", success: false });
+    }
+
+    return res.status(200).json({ success: true, data: rows[0] });
+  } catch (error) {
+    console.error("Erro ao buscar agendamento:", error);
+    return res
+      .status(500)
+      .json({ message: "Erro ao buscar agendamento", error: error.message });
+  }
+};
+
+const getHistoricoAgenda = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [rows] = await db.query("SELECT * FROM agendamento WHERE cliente_id = ? AND ativo = 0", [
+      id,
+    ]);
+
+    if (rows.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "Agendamento não encontrado", success: false });
+    }
+
+    return res.status(200).json({ success: true, data: rows[0] });
+  } catch (error) {
+    console.error("Erro ao buscar agendamento:", error);
+    return res
+      .status(500)
+      .json({ message: "Erro ao buscar agendamento", error: error.message });
+  }
+};
+
 const editarAgenda = async (req, res) => {
   try {
     const { id } = req.params;
@@ -121,4 +167,4 @@ const excluirAgenda = async (req, res) => {
   }
 };
 
-export { postAgenda, getAgenda, getAgendaById, editarAgenda, excluirAgenda };
+export { postAgenda, getAgenda, getAgendaById, editarAgenda, excluirAgenda, getAgendaByIdClient, getHistoricoAgenda};
