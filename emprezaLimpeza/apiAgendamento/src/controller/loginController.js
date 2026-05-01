@@ -12,8 +12,8 @@ const loginUser = async (req, res) => {
     }
 
     const [rows] = await db.query(
-      "SELECT id, nome, email, senha FROM cliente WHERE email = ?",
-      [email],
+      "SELECT id_cliente, nome, email, senha FROM cliente WHERE email = ?",
+      [email]
     );
 
     if (rows.length === 0) {
@@ -31,19 +31,8 @@ const loginUser = async (req, res) => {
         .json({ error: "Credenciais inválidas", success: false });
     }
 
-    const token = jwt.sign(
-      {
-        sub: user.id,
-      },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "1h",
-      },
-    );
-
-    return res.json({
-      message: "Login realizado com sucesso.",
-      token,
+    return res.status(200).json({usuario: {email: usuario.email,nome: usuario.nome}}).json({
+      message: "Login realizado com sucesso."
     });
   } catch (error) {
     console.error("Erro no login:", error);

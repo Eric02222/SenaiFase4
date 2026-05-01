@@ -16,10 +16,19 @@ export async function getClienteById(id) {
     return []
 }
 
+export async function getClienteByEmail(email) {
+    console.log(email)
+    const res = await api.get(`/cliente/email/${email}` )
+    if(res.status === 200){
+        return res.data?.data ?? []
+    }
+    return []
+}
+
 export async function criarCliente(data) {
     const res = await api.post('/cliente', data)
 
-    let ok = ""
+    let ok = "";
     if(res.status === 200){
         ok = res.message
     }

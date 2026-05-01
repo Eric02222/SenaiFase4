@@ -22,9 +22,7 @@ const createCliente = async (req, res) => {
     const hashPassword = await bcrypt.hash(senha, saltRound);
 
     const [result] = await db.query(
-      "INSERT INTO cliente (nome, email, senha, cpf, endereco, numero_telefone) VALUES (?, ?, ?, ?, ?, ?)",
-      [nome, email, hashPassword, cpf, endereco, numero_telefone],
-    );
+      "INSERT INTO cliente (nome, email, senha, cpf, endereco, numero_telefone) VALUES (?, ?, ?, ?, ?, ?)",[nome, email, hashPassword, cpf, endereco, numero_telefone]);
 
     if (result.affectedRows === 0) {
       return res.status(400).json({
@@ -39,7 +37,7 @@ const createCliente = async (req, res) => {
   } catch (error) {
     return res
       .status(500)
-      .json({ message: "Erro ao criar cliente", error: error.message });
+      .json({ message: "Erro ao criar cliente, Backend", error: error.message });
   }
 };
 
@@ -69,11 +67,27 @@ const getClienteById = async (req, res) => {
     }
 }
 
+const getClienteByEmail = async (req, res) => {
+    try {
+        const { email } = req.params;
+        const [rows] = await db.query("SELECT * FROM cliente WHERE email = ?", [email]);
+
+        if (rows.length === 0) {
+            console.log(email)
+            return res.status(404).json({ message: "Cliente não encontrado", success: false });
+        }
+
+        return res.status(200).json({ success: true, data: rows[0] });
+    } catch (error) {
+        console.error("Erro ao buscar cliente:", error);
+        return res.status(500).json({ message: "Erro ao buscar cliente", error: error.message });
+    }
+}
 
 const editarCliente = async (req, res) => {
     try {
         const { id } = req.params;
-        const { nome, email, senha, cpf, endereco, numero_telefone } = req.body;
+        const { nome, email, cpf, endereco, numero_telefone } = req.body;
 
         if (!id) {
             return res.status(400).json({ message: "O ID do cliente é obrigatório.", success: false });
@@ -83,8 +97,6 @@ const editarCliente = async (req, res) => {
             return res.status(400).json({ message: "Nome e email são obrigatórios e não podem estar vazios.", success: false });
         }
 
-        const saltRound = 10;
-        const hashPassword = await bcrypt.hash(senha, saltRound)
 
         const [result] = await db.query(
             "UPDATE cliente SET nome = ?, email = ?, cpf = ?, endereco = ?, numero_telefone = ? WHERE id_cliente = ?",
@@ -123,4 +135,4 @@ const excluirCliente = async (req, res) => {
     }
 }
 
-export {createCliente, getCliente, getClienteById, editarCliente, excluirCliente};
+export {createCliente, getCliente, getClienteByEmail, getClienteById, editarCliente, excluirCliente};

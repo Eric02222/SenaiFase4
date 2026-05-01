@@ -1,4 +1,4 @@
-const ModalProduto = ({ open, onClose, title, children, onSave }) => {
+const Modal = ({ open, onClose, title, children, onSave }) => {
   if (!open) return null;
 
   return (
@@ -39,4 +39,4 @@ const ModalProduto = ({ open, onClose, title, children, onSave }) => {
   );
 };
 
-export default ModalProduto;
+export default Modal;

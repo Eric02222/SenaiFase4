@@ -1,6 +1,6 @@
 import { api } from "./api.js";
 
-export async function login(data) {
+export async function loginUser(data) {
     try {
         const res = await api.post('/login', data)
         return res.data

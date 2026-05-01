@@ -78,7 +78,7 @@ function CadastroForm() {
         </div>
 
         <div className="form-group mb-3">
-          <label htmlFor="cpfCadastro" className='form-label'>Cpf</label>
+          <label htmlFor="cpfCadastro" className='form-label'>CPF</label>
           <input type="text" className="form-control" id='cpfCadastro' value={cpf} onChange={handleCpfChange} maxLength="11" required />
         </div>
 

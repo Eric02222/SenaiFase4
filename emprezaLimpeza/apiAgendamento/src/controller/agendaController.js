@@ -2,11 +2,11 @@ import db from "../config/db.js";
 
 const postAgenda = async (req, res) => {
   try {
-    const { data_servico, ativo, cliente_id, funcionario_id } = req.body;
+    const { data_servico, endereco, ativo, cliente_id, funcionario_id } = req.body;
 
     const [result] = await db.query(
-      "INSERT INTO agendamento (data_servico, ativo, cliente_id, funcionario_id, data_criado) VALUES (?, ?, ?, ?, CURRENT_TIME())",
-      [data_servico, ativo, cliente_id, funcionario_id],
+      "INSERT INTO agendamento (data_servico, endereco, ativo, cliente_id, funcionario_id, data_criado) VALUES (?, ?, ?, ?, ?, CURRENT_TIME())",
+      [data_servico, endereco, ativo, cliente_id, funcionario_id],
     );
 
     if (result.affectedRows === 0) {
@@ -41,7 +41,7 @@ const getAgenda = async (req, res) => {
 const getAgendaById = async (req, res) => {
   try {
     const { id } = req.params;
-    const [rows] = await db.query("SELECT * FROM agendamento WHERE id_agendamento = ?", [
+    const [rows] = await db.query("SELECT * FROM agendamento WHERE id_agendamento = ? AND ativo = 1", [
       id,
     ]);
 
@@ -65,8 +65,8 @@ const getAgendaById = async (req, res) => {
 const getAgendaByIdClient = async (req, res) => {
   try {
     const { id } = req.params;
-    const [rows] = await db.query("SELECT * FROM agendamento WHERE cliente_id = ?", [
-      id,
+    const [rows] = await db.query("SELECT * FROM agendamento WHERE cliente_id = ? AND ativo = 1", [
+      id
     ]);
 
     if (rows.length === 0) {
@@ -75,7 +75,29 @@ const getAgendaByIdClient = async (req, res) => {
         .json({ message: "Agendamento não encontrado", success: false });
     }
 
-    return res.status(200).json({ success: true, data: rows[0] });
+    return res.status(200).json({ success: true, data: rows });
+  } catch (error) {
+    console.error("Erro ao buscar agendamento:", error);
+    return res
+      .status(500)
+      .json({ message: "Erro ao buscar agendamento", error: error.message });
+  }
+};
+
+const getAgendaByIdClientExcluido = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [rows] = await db.query("SELECT * FROM agendamento WHERE cliente_id = ? AND ativo = 0", [
+      id
+    ]);
+
+    if (rows.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "Agendamento não encontrado", success: false });
+    }
+
+    return res.status(200).json({ success: true, data: rows });
   } catch (error) {
     console.error("Erro ao buscar agendamento:", error);
     return res
@@ -109,7 +131,7 @@ const getHistoricoAgenda = async (req, res) => {
 const editarAgenda = async (req, res) => {
   try {
     const { id } = req.params;
-    const { data_servico, ativo, cliente_id, funcionario_id } = req.body;
+    const { data_servico, endereco, ativo, cliente_id, funcionario_id } = req.body;
 
     if (!id) {
       return res
@@ -121,8 +143,8 @@ const editarAgenda = async (req, res) => {
     }
 
     const [result] = await db.query(
-      "UPDATE agendamento SET data_servico = ?, ativo = ? WHERE id_agendamento = ?",
-      [data_servico, ativo, id],
+      "UPDATE agendamento SET data_servico = ?, endereco = ?, ativo = ? WHERE id_agendamento = ?",
+      [data_servico, endereco, ativo, id],
     );
 
     if (result.affectedRows === 0) {
@@ -153,7 +175,7 @@ const excluirAgenda = async (req, res) => {
     const { id } = req.params;
     const [result] = await db.query(
       "UPDATE agendamento SET ativo = 0, data_finalizado = CURRENT_TIME() WHERE id_agendamento = ?",
-      [id],
+      [id]
     );
 
     if (result.affectedRows === 0) {
@@ -167,4 +189,4 @@ const excluirAgenda = async (req, res) => {
   }
 };
 
-export { postAgenda, getAgenda, getAgendaById, editarAgenda, excluirAgenda, getAgendaByIdClient, getHistoricoAgenda};
+export { postAgenda, getAgenda, getAgendaById, editarAgenda, excluirAgenda, getAgendaByIdClient, getHistoricoAgenda, getAgendaByIdClientExcluido};

@@ -51,7 +51,7 @@ function Produto() {
         setDescricaoEdit("");
         setValorEdit("");
 
-        setModal(true);
+        funcionario_id
     };
 
     const fecharModal = () => {

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router"
-import { login } from "../../services/login"
+import { loginUser } from "../../services/login"
 import { useAuth } from "../../context/context"
 
 function LoginForm() {
@@ -26,7 +26,7 @@ function LoginForm() {
         email: email,
         senha: senha
       }
-      const res = await login(data);
+      const res = await loginUser(data);
       console.log(res)
 
       if (res.length === 0) {

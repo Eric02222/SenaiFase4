@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  createCliente, getCliente, getClienteById, editarCliente, excluirCliente
+  createCliente, getCliente, getClienteById, editarCliente, excluirCliente, getClienteByEmail
 } from "../controller/clienteController.js";
 
 
@@ -11,6 +11,8 @@ clienteRoutes.post("/cliente", createCliente);
 clienteRoutes.get("/cliente", getCliente);
 
 clienteRoutes.get("/cliente/:id", getClienteById);
+
+clienteRoutes.get("/cliente/email/:email", getClienteByEmail);
 
 clienteRoutes.patch("/cliente", editarCliente);
 
