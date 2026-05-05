@@ -1,0 +1,15 @@
+Requisitos funcionais
+
+Cadastro/Login de funcionário/cliente
+Cadastro de quartos do hotel
+Sistema para fazer reserva de quartos para os clientes
+Editar/Excluir reservas de quartos
+Editar/Excluir quartos
+Lista de quartos reservados
+Lista de quartos disponíveis
+Cliente somente visualiza os quartos reservados	
+
+Requisitos não funcionais
+
+Alerta caso o limite mínimo de quarto e atingido ou quando estar próximo do overbooking
+Histórico de movimentação

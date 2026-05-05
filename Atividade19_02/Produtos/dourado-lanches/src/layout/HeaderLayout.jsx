@@ -1,5 +1,4 @@
-import { Link, Outlet } from "react-router";
-import { useAuth } from "../context/Context";
+import { Outlet } from "react-router";
 import Navbar from "../components/Navbar/Navbar";
 
 function HeaderLayout() {
