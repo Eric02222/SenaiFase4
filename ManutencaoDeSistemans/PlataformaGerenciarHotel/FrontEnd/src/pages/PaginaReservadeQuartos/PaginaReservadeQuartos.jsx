@@ -1,8 +1,10 @@
-import React from 'react'
+import ListagemQuartos from '../../components/ListagemQuartos/ListagemQuartos'
 
 function PaginaReservadeQuartos() {
   return (
-    <div>PaginaReservadeQuartos</div>
+    <div>
+      <ListagemQuartos/>
+    </div>
   )
 }
 

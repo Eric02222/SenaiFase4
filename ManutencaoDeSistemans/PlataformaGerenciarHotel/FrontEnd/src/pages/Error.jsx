@@ -1,8 +1,9 @@
-import React from 'react'
 
 function Error() {
   return (
-    <div>Error</div>
+    <div>
+        <h1>404 - Esta página não existe</h1>
+    </div>
   )
 }
 

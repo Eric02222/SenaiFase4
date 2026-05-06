@@ -3,7 +3,7 @@ import { useNavigate } from "react-router"
 import { useAuth } from '../../context/Context';
 import { LogarUsuario } from '../../services/login';
 
-function FormularioLogins() {
+function FormularioLogin() {
   const { login } = useAuth()
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -85,4 +85,4 @@ function FormularioLogins() {
   )
 }
 
-export default FormularioLogins
+export default FormularioLogin

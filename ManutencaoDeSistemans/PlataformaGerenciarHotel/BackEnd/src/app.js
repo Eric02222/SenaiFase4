@@ -1,12 +1,18 @@
 import express from "express";
 import cors from "cors"
+import routerUser from "./route/routeLogin/routeLogin.js";
+import routerUsuario from "./route/routeUsuario/routeUsuario.js";
+import routerQuarto from "./route/routeQuarto/routeQuarto.js";
+import routerReserva from "./route/routeReserva/routeReserva.js";
 
 const app = express()
 
 app.use(cors())
 app.use(express.json())
 
-//Aplicar rotas aqui
-
+app.use(routerUser)
+app.use(routerUsuario)
+app.use(routerQuarto)
+app.use(routerReserva)
 
 export {app}

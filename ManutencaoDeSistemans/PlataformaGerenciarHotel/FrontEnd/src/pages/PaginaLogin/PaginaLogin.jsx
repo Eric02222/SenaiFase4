@@ -1,8 +1,8 @@
-import React from 'react'
+import FormularioLogin from '../../components/FormularioLogin/FormularioLogin'
 
 function PaginaLogin() {
   return (
-    <div>PaginaLogin</div>
+    <div><FormularioLogin/></div>
   )
 }
 

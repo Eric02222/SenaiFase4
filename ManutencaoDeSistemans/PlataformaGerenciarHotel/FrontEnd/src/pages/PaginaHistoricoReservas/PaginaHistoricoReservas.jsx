@@ -1,8 +1,10 @@
-import React from 'react'
+import HistoricoReservas from '../../components/HistoricoReservas/HistoricoReservas'
 
 function PaginaHistoricoReservas() {
   return (
-    <div>PaginaHistoricoReservas</div>
+    <div>
+      <HistoricoReservas/>
+    </div>
   )
 }
 

@@ -1,8 +1,10 @@
-import React from 'react'
+import ListaReservas from "../../components/ListaReservas/ListaReservas"
 
 function PaginaReservas() {
   return (
-    <div>PaginaReservas</div>
+    <div>
+      <ListaReservas/>
+    </div>
   )
 }
 

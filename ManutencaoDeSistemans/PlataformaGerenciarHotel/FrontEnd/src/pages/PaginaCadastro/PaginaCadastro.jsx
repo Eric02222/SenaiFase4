@@ -1,8 +1,8 @@
-import React from 'react'
+import FormularioCadastro from '../../components/FormularioCadastro/FormularioCadastro'
 
 function PaginaCadastro() {
   return (
-    <div>PaginaCadastro</div>
+    <div><FormularioCadastro/></div>
   )
 }
 

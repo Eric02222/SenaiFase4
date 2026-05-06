@@ -21,7 +21,7 @@ CREATE TABLE quarto (
 );
 
 CREATE TABLE reserva (
-	id_agendamento INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	id_reserva INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     data_reserva_inicio DATETIME,
 	data_reserva_fim DATETIME,
     data_editado DATETIME,
