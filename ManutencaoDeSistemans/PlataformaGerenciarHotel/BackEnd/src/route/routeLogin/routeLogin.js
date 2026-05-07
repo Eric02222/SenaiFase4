@@ -1,4 +1,4 @@
-import  { loginUser}  from '../../controller/authController/usuarioController.js'
+import { loginUser } from "../../controller/controllerLogin/controllerLogin.js"
 import { Router } from "express";
 
 const routerUser = Router();

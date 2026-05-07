@@ -1,4 +1,4 @@
-const ModalReserva = ({ open, onClose, title, children, onSave }) => {
+const ModalCriarQuarto = ({ open, onClose, title, children, onSave }) => {
   if (!open) return null;
 
   return (
@@ -37,4 +37,4 @@ const ModalReserva = ({ open, onClose, title, children, onSave }) => {
   );
 };
 
-export default ModalReserva;
+export default ModalCriarQuarto;

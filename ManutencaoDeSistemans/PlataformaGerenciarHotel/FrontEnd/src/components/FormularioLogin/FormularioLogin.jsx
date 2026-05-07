@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router"
 import { useAuth } from '../../context/Context';
-import { LogarUsuario } from '../../services/login';
+import { loginUser } from "../../service/login.js"
 
 function FormularioLogin() {
   const { login } = useAuth()
@@ -30,7 +30,7 @@ function FormularioLogin() {
         senha: senha
       }
 
-      const res = await LogarUsuario(data)
+      const res = await loginUser(data)
       console.log(res)
       if (res.length === 0) {
         return alert('Usuario não encontrado')

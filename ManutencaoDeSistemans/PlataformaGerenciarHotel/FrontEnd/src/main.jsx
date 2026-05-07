@@ -5,8 +5,10 @@ import Layout from './layout/Layout'
 import PaginaLogin from './pages/PaginaLogin/PaginaLogin'
 import PaginaCadastro from './pages/PaginaCadastro/PaginaCadastro'
 import PaginaHistoricoReservas from './pages/PaginaHistoricoReservas/PaginaHistoricoReservas'
+import PaginaReservadeQuartos from './pages/PaginaReservadeQuartos/PaginaReservadeQuartos'
 import PaginaReservas from './pages/PaginaReservas/PaginaReservas'
 import Error from './pages/Error'
+import { AuthProvider } from './context/Context'
 
 const router = createBrowserRouter([
   {
@@ -24,6 +26,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 )

@@ -16,6 +16,13 @@ export async function getUsuarioById(id) {
     return [];
 }
 
+export async function getUsuarioByEmail(email) {
+    const res = await api.get(`/usuario/email/${email}`)
+    if (res.status === 200) {
+        return res.data?.data ?? [];
+    }
+    return [];
+}
 
 export async function postUsuario(data) {
     const res = await api.post("/usuario", data)

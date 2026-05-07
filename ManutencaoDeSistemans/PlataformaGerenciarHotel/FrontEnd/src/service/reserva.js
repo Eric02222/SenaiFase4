@@ -36,7 +36,7 @@ export async function postReserva(data) {
 }
 
 export async function putReserva(id, data) {
-    const res = await api.put(`/reserva/${id}`, data)
+    const res = await api.patch(`/reserva/${id}`, data)
 
     let r = "";
     if (res.status === 201) {
@@ -47,7 +47,7 @@ export async function putReserva(id, data) {
 }
 
 export async function deleteReservas(id) {
-    const res = await api.put(`/quarto/${id}`)
+    const res = await api.patch(`/deletarReseva/${id}`)
 
     let r = "";
     if (res.status === 201) {

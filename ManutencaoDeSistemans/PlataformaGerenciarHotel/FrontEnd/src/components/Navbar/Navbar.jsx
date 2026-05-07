@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { useAuth } from "../../context/Context"
+import { useAuth } from "../../context/Context";
 
 function Navbar() {
   const { user, logout } = useAuth();
@@ -9,7 +9,7 @@ function Navbar() {
       <div>
         <h1>Hotel Daora</h1>
 
-        {user.usuario.admin === true ? (
+        {user  ? (
           <nav>
             <Link to="listaQuartos">Quartos</Link>
             <Link to="reservas">Reservas</Link>

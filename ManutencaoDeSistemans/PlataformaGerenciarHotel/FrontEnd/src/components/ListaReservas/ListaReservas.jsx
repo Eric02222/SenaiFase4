@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import Modal from "../Modal/Modal";
 import { deleteReservas, getReservas, putReserva } from "../../service/reserva";
+import FazerReserva from "../FazerReserva/FazerReserva";
+import { getUsuarioByEmail } from "../../service/usuario";
+import ModalReserva from "../Modal/Modal";
 
 function ListaReservas() {
   const [reservas, setReservas] = useState([]);
@@ -9,6 +11,7 @@ function ListaReservas() {
 
   const [reservaSelecionado, setReservaSelecionado] = useState(null);
 
+  const [emailEdit, setEmailEdit] = useState("");
   const [reservaInicioEdit, setReservaInicioEdit] = useState("");
   const [reservaFimEdit, setReservaFimEdit] = useState("");
 
@@ -16,6 +19,7 @@ function ListaReservas() {
     try {
       const lista = await getReservas();
       setReservas(lista);
+
     } catch (error) {
       console.log("Erro ao carregar reserva:", error);
       setReservas([]);
@@ -23,11 +27,13 @@ function ListaReservas() {
   };
 
   useEffect(() => {
+
     carregarReserva();
   }, []);
 
   const abrirModalEditar = (reserva) => {
     setReservaSelecionado(reserva);
+          console.log(reservas)
 
     setReservaInicioEdit(reserva.data_reserva_inicio ?? "");
     setReservaFimEdit(reserva.data_reserva_fim ?? "");
@@ -43,9 +49,15 @@ function ListaReservas() {
 
   async function salvar() {
     try {
+      const res = await getUsuarioByEmail(emailEdit);
+      if (res.length === 0) {
+        return alert("Usuario não encontrado, necessarios cadastrar Cliente")
+      }
+
       const payload = {
         data_reserva_inicio: reservaInicioEdit,
-        data_reserva_fim: reservaFimEdit
+        data_reserva_fim: reservaFimEdit,
+        usuario_id: res.id_usuario,
       }
 
       if (!reservaSelecionado.id) {
@@ -72,6 +84,7 @@ function ListaReservas() {
 
   const remover = async (id) => {
     try {
+      console.log(id)
       const excluido = await deleteReservas(id);
 
       if (excluido === "") {
@@ -83,7 +96,6 @@ function ListaReservas() {
       await carregarReserva();
     } catch (error) {
       console.log("Erro:", error);
-
     }
   }
 
@@ -120,13 +132,15 @@ function ListaReservas() {
         </tbody>
       </table>
 
-      <Modal
+      <ModalReserva
         open={modal}
         onClose={fecharModal}
         onSave={salvar}
         title={"Editar reserva"}
       >
-      </Modal>
+        <FazerReserva emailCliente={emailEdit} dataReservaEntrada={reservaInicioEdit} dataReservaSaida={reservaFimEdit} onChangeReservaEntrada={setReservaInicioEdit} onChangeReservaSaida={setReservaFimEdit} onChangeEmailCliente={setEmailEdit} />
+
+      </ModalReserva>
     </div>
   )
 }

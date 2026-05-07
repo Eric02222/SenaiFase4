@@ -51,6 +51,22 @@ const getUsuarioById = async (req, res) => {
     }
 }
 
+const getUsuarioByEmail = async (req, res) => {
+    try {
+        const { email } = req.params;
+        const [rows] = await db.query("SELECT * FROM usuario WHERE email = ?", [email]);
+
+        if (rows.length === 0) {
+            console.log(email)
+            return res.status(404).json({ message: "Usuario não encontrado", success: false });
+        }
+
+        return res.status(200).json({ success: true, data: rows[0] });
+    } catch (error) {
+        console.error("Erro ao buscar usuario:", error);
+        return res.status(500).json({ message: "Erro ao buscar usuario", error: error.message });
+    }
+}
 
 const editarUsuario = async (req, res) => {
     try {
@@ -102,4 +118,4 @@ const excluirUsuario = async (req, res) => {
     }
 }
 
-export { createUser, getUsuarios, getUsuarioById ,editarUsuario, excluirUsuario };
+export { createUser, getUsuarios, getUsuarioById ,getUsuarioByEmail ,editarUsuario, excluirUsuario };
