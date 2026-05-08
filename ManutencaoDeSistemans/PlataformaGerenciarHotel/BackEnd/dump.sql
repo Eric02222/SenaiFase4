@@ -31,9 +31,10 @@ CREATE TABLE quarto (
 
 CREATE TABLE reserva (
 	id_reserva INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    data_servico DATETIME,
+    data_reserva_inicio DATETIME,
 	data_criado DATETIME,
-    data_finalizado DATETIME,
+    data_excluido DATETIME,
+    data_reserva_fim DATETIME,
     ativo INT DEFAULT 1,
     quarto_id INT,
 	cliente_id INT,
@@ -63,7 +64,7 @@ INSERT INTO quarto (numero_quarto, capacidade_hospedes, tipo_quarto, preco) VALU
 (105, 2, "Simples", 60),
 (401, 6, "Suíte", 460);
 
-INSERT INTO reserva (data_servico, data_criado, data_finalizado, ativo, quarto_id, cliente_id, funcionario_id)
+INSERT INTO reserva (data_reserva_inicio, data_criado, data_reserva_fim, ativo, quarto_id, cliente_id, funcionario_id)
 VALUES 
 ("2017-06-15 14:00:00", "2017-06-12 00:00:00", "2017-06-16 00:00:00", 1, 2, 1, 1),
 ("2019-02-23 10:00:00","2017-06-12 00:00:00", "2017-06-16 00:00:00", 1, 1, 3, 2),
