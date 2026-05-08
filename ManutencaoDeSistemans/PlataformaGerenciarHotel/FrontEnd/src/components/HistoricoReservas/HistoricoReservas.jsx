@@ -21,10 +21,10 @@ function HistoricoReservas() {
   }, []);
 
   return (
-    <div >
+    <div className="container mt-4">
       <h2>Lista Reservas</h2>
 
-      <table >
+      <table className="table table-bordered">
         <thead>
           <tr>
             <th>Cliente:</th>

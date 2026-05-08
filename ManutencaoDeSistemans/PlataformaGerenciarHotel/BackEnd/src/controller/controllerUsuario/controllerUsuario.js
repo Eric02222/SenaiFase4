@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 
 const createUser = async (req, res) => {
     try {
-        const { nome, email, senha, cpf, numero_telefone, tipo_usuario } = req.body
+        const { nome, email, senha, cpf, numero_telefone } = req.body
 
         if (nome === "" || email === "" || senha === "") {
             return res.status(400).json({ message: "Todos os campos devem ser preenchidos", success: false })
@@ -12,66 +12,66 @@ const createUser = async (req, res) => {
         const saltRound = 10;
         const hashPassword = await bcrypt.hash(senha, saltRound)
 
-        const [result] = await db.query("INSERT INTO usuario (nome, email, senha, cpf, numero_telefone, administrador) VALUES (?, ?, ?, ?, ?, ?)", [nome, email, hashPassword, cpf, numero_telefone, tipo_usuario])
+        const [result] = await db.query("INSERT INTO cliente (nome, email, senha, cpf, numero_telefone) VALUES (?, ?, ?, ?, ?)", [nome, email, hashPassword, cpf, numero_telefone])
 
         if (result.affectedRows === 0) {
-            return res.status(400).json({ message: "Não foi possivel inserir o usuario", success: false })
+            return res.status(400).json({ message: "Não foi possivel inserir o cliente", success: false })
         }
 
-        return res.status(201).json({ message: "Usuario cadastrado com sucesso", success: true })
+        return res.status(201).json({ message: "Cliente cadastrado com sucesso", success: true })
     } catch (error) {
-        return res.status(500).json({ message: "Erro ao criar usuario", error: error.message })
+        return res.status(500).json({ message: "Erro ao criar cliente", error: error.message })
     }
 }
 
 
 const getUsuarios = async (req, res) => {
     try {
-        const [rows] = await db.query("SELECT * FROM usuario");
+        const [rows] = await db.query("SELECT * FROM cliente");
         return res.status(200).json({ success: true, data: rows });
     } catch (error) {
-        console.error("Erro ao buscar usuários:", error);
-        return res.status(500).json({ message: "Erro ao buscar usuários", error: error.message });
+        console.error("Erro ao buscar cliente:", error);
+        return res.status(500).json({ message: "Erro ao buscar cliente", error: error.message });
     }
 }
 
 const getUsuarioById = async (req, res) => {
     try {
         const { id } = req.params;
-        const [rows] = await db.query("SELECT * FROM usuario WHERE id = ?", [id]);
+        const [rows] = await db.query("SELECT * FROM cliente WHERE id_cliente = ?", [id]);
 
         if (rows.length === 0) {
-            return res.status(404).json({ message: "Usuário não encontrado", success: false });
+            return res.status(404).json({ message: "Cliente não encontrado", success: false });
         }
 
         return res.status(200).json({ success: true, data: rows[0] });
     } catch (error) {
-        console.error("Erro ao buscar usuário:", error);
-        return res.status(500).json({ message: "Erro ao buscar usuário", error: error.message });
+        console.error("Erro ao buscar cliente:", error);
+        return res.status(500).json({ message: "Erro ao buscar cliente", error: error.message });
     }
 }
 
 const getUsuarioByEmail = async (req, res) => {
     try {
         const { email } = req.params;
-        const [rows] = await db.query("SELECT * FROM usuario WHERE email = ?", [email]);
+        const [rows] = await db.query("SELECT * FROM cliente WHERE email = ?", [email]);
 
         if (rows.length === 0) {
             console.log(email)
-            return res.status(404).json({ message: "Usuario não encontrado", success: false });
+            return res.status(404).json({ message: "Cliente não encontrado", success: false });
         }
 
         return res.status(200).json({ success: true, data: rows[0] });
     } catch (error) {
-        console.error("Erro ao buscar usuario:", error);
-        return res.status(500).json({ message: "Erro ao buscar usuario", error: error.message });
+        console.error("Erro ao buscar cliente:", error);
+        return res.status(500).json({ message: "Erro ao buscar cliente", error: error.message });
     }
 }
 
 const editarUsuario = async (req, res) => {
     try {
         const { id } = req.params;
-        const { nome, email, cpf, numero_telefone, tipo_usuario } = req.body;
+        const { nome, email, cpf, numero_telefone } = req.body;
 
         if (!id) {
             return res.status(400).json({ message: "O ID do usuário é obrigatório.", success: false });
@@ -82,18 +82,18 @@ const editarUsuario = async (req, res) => {
         }
 
         const [result] = await db.query(
-            "UPDATE usuario SET nome = ?, email = ?, cpf = ?, numero_telefone = ?, tipo_usuario = ? WHERE id = ?",
-            [nome, email, cpf, numero_telefone, tipo_usuario, id]
+            "UPDATE cliente SET nome = ?, email = ?, cpf = ?, numero_telefone = ? WHERE id_cliente = ?",
+            [nome, email, cpf, numero_telefone, id]
         );
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: "Usuário não encontrado ou nenhuma alteração foi feita.", success: false });
+            return res.status(404).json({ message: "Cliente não encontrado ou nenhuma alteração foi feita.", success: false });
         }
 
-        return res.status(200).json({ message: "Usuário atualizado com sucesso.", success: true });
+        return res.status(200).json({ message: "Cliente atualizado com sucesso.", success: true });
     } catch (error) {
-        console.error("Erro ao editar usuário:", error);
-        return res.status(500).json({ message: "Erro interno ao atualizar usuário.", error: error.message });
+        console.error("Erro ao editar c:", error);
+        return res.status(500).json({ message: "Erro interno ao atualizar c.", error: error.message });
     }
 }
 
@@ -102,19 +102,19 @@ const excluirUsuario = async (req, res) => {
         const { id } = req.params;
 
         if (!id) {
-            return res.status(400).json({ message: "O ID do usuário é obrigatório.", success: false });
+            return res.status(400).json({ message: "O ID do cliente é obrigatório.", success: false });
         }
 
-        const [result] = await db.query("DELETE FROM usuario WHERE id = ?", [id]);
+        const [result] = await db.query("DELETE FROM cliente WHERE id_cliente = ?", [id]);
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: "Usuário não encontrado.", success: false });
+            return res.status(404).json({ message: "Cliente não encontrado.", success: false });
         }
 
-        return res.status(200).json({ message: "Usuário excluído com sucesso.", success: true });
+        return res.status(200).json({ message: "Cliente excluído com sucesso.", success: true });
     } catch (error) {
-        console.error("Erro ao excluir usuário:", error);
-        return res.status(500).json({ message: "Erro interno ao excluir usuário.", error: error.message });
+        console.error("Erro ao excluir cliente:", error);
+        return res.status(500).json({ message: "Erro interno ao excluir cliente.", error: error.message });
     }
 }
 

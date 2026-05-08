@@ -7,6 +7,8 @@ import PaginaCadastro from './pages/PaginaCadastro/PaginaCadastro'
 import PaginaHistoricoReservas from './pages/PaginaHistoricoReservas/PaginaHistoricoReservas'
 import PaginaReservadeQuartos from './pages/PaginaReservadeQuartos/PaginaReservadeQuartos'
 import PaginaReservas from './pages/PaginaReservas/PaginaReservas'
+import 'bootstrap/dist/css/bootstrap.min.css'
+
 import Error from './pages/Error'
 import { AuthProvider } from './context/Context'
 

@@ -71,7 +71,7 @@ function ListagemQuartos() {
       const data = {
         data_reserva_inicio: dataEntradaReserva,
         data_reserva_fim: dataSaidaReserva,
-        usuario_id: res.id_usuario,
+        cliente_id: res.cliente_id,
         quarto_id: quartoSelecionado.id_quarto
       };
 
@@ -118,15 +118,17 @@ function ListagemQuartos() {
 
 
   return (
-    <div >
-      <h2>Lista Reservas</h2>
+    <div className="container mt-4">
+      <h2>Lista quartos</h2>
 
-      <button className="btn btn-primary" onClick={() => abrirModalQuarto(q)}>
+      <button className="btn btn-primary" onClick={() => abrirModalQuarto()}>
         Adicionar quarto
       </button>
 
+      <br />
+      <br />
 
-      <table >
+      <table className="table table-bordered">
         <thead>
           <tr>
             <th>Numero do quarto:</th>
@@ -159,7 +161,7 @@ function ListagemQuartos() {
         onSave={salvarReserva}
         title={"Fazer reserva"}
       >
-        <FazerReserva emailCliente={clienteEmail} dataReservaEntrada={dataEntradaReserva} dataReservaSaida={dataSaidaReserva} onChangeReservaEntrada={setDataSaidaReserva} onChangeReservaSaida={setDataEntradaReserva} onChangeEmailCliente={setClienteEmail} />
+        <FazerReserva emailCliente={clienteEmail} dataReservaEntrada={dataEntradaReserva} dataReservaSaida={dataSaidaReserva} onChangeReservaEntrada={setDataEntradaReserva } onChangeReservaSaida={setDataSaidaReserva} onChangeEmailCliente={setClienteEmail} />
       </ModalReserva>
 
       <ModalCriarQuarto
@@ -167,7 +169,7 @@ function ListagemQuartos() {
         onClose={fecharModal}
         onSave={salvarQuarto}
         title={"Adicionar quarto"}>
-        <CriarQuarto numeroQuarto={numeroQuarto} capacidadeHospedes={capacidadeHospedes} tipoQuarto={tipoQuarto} preco={preco} onChangeNumeroQuarto={setNumeroQuarto} onChangeCapacidadeHospedes={setCapacidadeHospedes} onChangeTipoQuarto={setTipoQuarto} onChangePreco={setPreco}/>
+        <CriarQuarto numeroQuarto={numeroQuarto} capacidadeHospedes={capacidadeHospedes} tipoQuarto={tipoQuarto} preco={preco} onChangeNumeroQuarto={setNumeroQuarto} onChangeCapacidadeHospedes={setCapacidadeHospedes} onChangeTipoQuarto={setTipoQuarto} onChangePreco={setPreco} />
       </ModalCriarQuarto>
     </div >
   )

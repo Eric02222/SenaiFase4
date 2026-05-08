@@ -3,11 +3,11 @@ import { createUser, editarUsuario, getUsuarioByEmail, excluirUsuario, getUsuari
 
 const routerUsuario = Router();
 
-routerUsuario.get("/usuario", getUsuarios);
-routerUsuario.get("/usuario/:id", getUsuarioById);
+routerUsuario.get("/cliente", getUsuarios);
+routerUsuario.get("/cliente/:id", getUsuarioById);
 routerUsuario.get("/cliente/email/:email", getUsuarioByEmail);
-routerUsuario.post("/usuario", createUser);
-routerUsuario.patch("/usuario/:id", editarUsuario);
-routerUsuario.delete("/usuario/:id", excluirUsuario)
+routerUsuario.post("/cliente", createUser);
+routerUsuario.patch("/cliente/:id", editarUsuario);
+routerUsuario.delete("/cliente/:id", excluirUsuario)
 
 export default routerUsuario; 

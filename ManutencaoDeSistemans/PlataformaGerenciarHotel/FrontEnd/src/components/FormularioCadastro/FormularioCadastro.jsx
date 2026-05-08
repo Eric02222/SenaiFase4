@@ -1,5 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router"
+import { postUsuario } from "../../service/usuario";
+import { postFuncionario } from "../../service/funcionario";
 
 function FormularioCadastro() {
   const [nome, setNome] = useState('');
@@ -8,7 +10,7 @@ function FormularioCadastro() {
   const [numeroTelefone, setNumeroTelefone] = useState('');
   const [senha, setSenha] = useState('');
   const [senhaConfirmar, setSenhaConfirmar] = useState('');
-  const [tipoUsuario, setTipoUsuario] = useState(1);
+  const [tipoUsuario, setTipoUsuario] = useState("cliente");
 
 
   const [senhasConferes, setSenhasConferes] = useState(true)
@@ -47,15 +49,24 @@ function FormularioCadastro() {
         senha: senha,
         cpf: cpf,
         numero_telefone: numeroTelefone,
-        administrador: tipoUsuario
       }
-      await CriarUsuario(data)
 
-      resetForm()
+      if (tipoUsuario == "cliente") {
+        await postUsuario(data)
 
-      alert('Conta criada com sucesso!')
-      navigate('/')
+        resetForm()
 
+        alert('Conta criada com sucesso!')
+        navigate('/')
+
+      } else if (tipoUsuario == "funcionario") {
+        await postFuncionario(data)
+
+        resetForm()
+
+        alert('Conta criada com sucesso!')
+        navigate('/')
+      }
 
     }
     catch (error) {
@@ -65,8 +76,8 @@ function FormularioCadastro() {
   }
 
   return (
-    <div className='container'>
-      <h2 >Criar Usuários</h2>
+    <div className='container w-25 mt-5'>
+      <h2 className="text-center mx-auto">Criar Usuários</h2>
       <form onSubmit={handleSubmit} >
 
         <div className="form-group mb-3">
@@ -103,14 +114,15 @@ function FormularioCadastro() {
           )}
         </div>
 
-        <select nome="tipoUsuario" id='tipoUsuario' className='form-select mb-3' value={tipoUsuario} onChange={handleTipoUsuario}>
-          <option value={1}>Usuario Normal</option>
-          <option value={2}>Administrador</option>
+        <div className="form-group mb-3">
+          <label htmlFor="tipoUsuario" className='form-label'>Tipo de conta</label>
+          <select nome="tipoUsuario" id='tipoUsuario' className='form-select mb-3' value={tipoUsuario} onChange={handleTipoUsuario}>
+            <option value={"cliente"}>Cliente</option>
+            <option value={"funcionario"}>Administrador</option>
+          </select>
+        </div>
 
-        </select>
-
-
-        <div className="d-flex justify-content-center ">
+        <div className="d-flex justify-content-center mt-4">
           <button type='submit' className="btn btn-primary fw-bold">
             Criar Usuário
           </button>

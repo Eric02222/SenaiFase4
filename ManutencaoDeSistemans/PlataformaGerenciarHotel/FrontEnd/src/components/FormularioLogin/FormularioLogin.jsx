@@ -1,26 +1,26 @@
 import { useState } from "react"
 import { useNavigate } from "react-router"
 import { useAuth } from '../../context/Context';
-import { loginUser } from "../../service/login.js"
+import { loginUserCliente, loginUserFuncionario } from "../../service/login.js"
 
 function FormularioLogin() {
   const { login } = useAuth()
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [tipoUsuario, setTipoUsuario] = useState("cliente");
 
   const navigate = useNavigate();
 
   const handleEmailChange = (e) => setEmail(e.target.value)
   const handleSenhaChange = (e) => setSenha(e.target.value)
+  const handleTipoUsuario = (e) => setTipoUsuario(e.target.value)
+
 
   const resetForm = () => {
     setEmail('')
     setSenha('')
   }
 
-  const esqueciSenha = () => {
-    navigate('/esquciSenha')
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -30,20 +30,44 @@ function FormularioLogin() {
         senha: senha
       }
 
-      const res = await loginUser(data)
-      console.log(res)
-      if (res.length === 0) {
-        return alert('Usuario não encontrado')
+      if (tipoUsuario == "funcionario") {
+        const res = await loginUserFuncionario(data)
+        console.log("Funcionario")
+
+        console.log(res)
+        if (res.length === 0) {
+          return alert('Funcionario não encontrado')
+        }
+
+        const dataUsuario = {
+          ...res
+        }
+
+        resetForm()
+        login(dataUsuario)
+        alert("login efetuado com sucesso");
+        navigate('/listaQuartos')
+
+      } else if (tipoUsuario === "cliente") {
+        const res = await loginUserCliente(data)
+        console.log("Cliente")
+
+        console.log(res)
+        if (res.length == 0) {
+          return alert('Usuario não encontrado')
+        }
+
+        const dataUsuario = {
+          ...res
+        }
+
+        resetForm()
+        login(dataUsuario)
+        alert("login efetuado com sucesso");
+        navigate('/listaQuartos')
       }
 
-      const dataUsuario = {
-        ...res
-      }
 
-      resetForm()
-      login(dataUsuario)
-      alert("login efetuado com sucesso");
-      navigate('/listaQuartos')
     }
     catch (error) {
       console.error("Erro ao logar usuario", error)
@@ -51,11 +75,11 @@ function FormularioLogin() {
     }
   }
 
-
   return (
-    <div className='container'>
-      <h2 >Acesso ao Sistema</h2>
-      <form onSubmit={handleSubmit} >
+    <div className='container w-25 mt-5 '>
+      <h2 className="text-center mx-auto">Acesso ao Sistema</h2>
+      <form onSubmit={handleSubmit} className="  " >
+
 
         <div className="form-group mb-3">
           <label htmlFor="emailRegistro" className='form-label'>Email</label>
@@ -67,17 +91,19 @@ function FormularioLogin() {
           <input type="password" id='senhaRegistro' className="form-control" value={senha} onChange={handleSenhaChange} placeholder='********' required />
         </div>
 
-        <div className="d-flex justify-content-center mb-4">
-          <a onClick={esqueciSenha} className="text-decoration-none text-primary small fw-bold" role="button" style={{ cursor: 'pointer' }}>Esqueci minha senha</a>
-
+        <div className="form-group mb-3">
+          <label htmlFor="tipoUsuario" className='form-label'>Tipo de Conta</label>
+          <select nome="tipoUsuario" id='tipoUsuario' className='form-select mb-3' value={tipoUsuario} onChange={handleTipoUsuario}>
+            <option value={"cliente"}>Cliente</option>
+            <option value={"funcionario"}>Administrador</option>
+          </select>
         </div>
 
-        <div className="d-flex justify-content-center ">
+        <div className="d-flex justify-content-center mt-4">
           <button type='submit' className="btn btn-primary fw-bold" >
             Entrar Usuário
           </button>
         </div>
-
 
       </form>
 

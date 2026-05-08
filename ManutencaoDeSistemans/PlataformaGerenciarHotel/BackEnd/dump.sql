@@ -1,14 +1,23 @@
-CREATE DATABASE reserva_hotel;
-USE reserva_hotel;
+CREATE DATABASE hotelGerenciamento;
+USE hotelGerenciamento;
 
-CREATE TABLE usuario (
-	id_usuario INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE cliente (
+	id_cliente INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(45),
+    email VARCHAR(45),
+    senha VARCHAR(100),
+    cpf VARCHAR(45) UNIQUE,
+    numero_telefone VARCHAR(45)
+);
+
+CREATE TABLE funcionario (
+	id_funcionario INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(45),
     email VARCHAR(45),
     senha VARCHAR(100),
     cpf VARCHAR(45) UNIQUE,
     numero_telefone VARCHAR(45),
-    administrador BOOLEAN DEFAULT FALSE
+    ativo BOOLEAN
 );
 
 CREATE TABLE quarto (
@@ -22,35 +31,48 @@ CREATE TABLE quarto (
 
 CREATE TABLE reserva (
 	id_reserva INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    data_reserva_inicio DATETIME,
-	data_reserva_fim DATETIME,
-    data_editado DATETIME,
-    data_excluido DATETIME,
-    ativo BOOLEAN DEFAULT TRUE,
-	usuario_id INT,
+    data_servico DATETIME,
+	data_criado DATETIME,
+    data_finalizado DATETIME,
+    ativo INT DEFAULT 1,
     quarto_id INT,
-    FOREIGN KEY (usuario_id)
-    REFERENCES usuario (id_usuario),
+	cliente_id INT,
+    funcionario_id INT,
     FOREIGN KEY (quarto_id)
-    REFERENCES quarto (id_quarto)
+    REFERENCES quarto (id_quarto),
+    FOREIGN KEY (cliente_id)
+    REFERENCES cliente (id_cliente),
+    FOREIGN KEY (funcionario_id)
+    REFERENCES funcionario (id_funcionario)
 );
 
-INSERT INTO usuario (nome, email, senha, cpf, numero_telefone, administrador) VALUES
-("Carlos", "carlos@gmail.com", "senha super protegida", "58843894235",  "48 999644521", FALSE),
-("Bianca", "bia@gmail.com", "senha super protegida", "35489154891", "48 999162741", TRUE),
-("Jose", "JO@gmail.com", "senha super protegida", "12535489614", "48 999725031", TRUE),
-("Carlinha", "carla@gmail.com", "senha super protegida", "37815696348", "48 999873298", FALSE);
+INSERT INTO cliente (nome, email, senha, cpf, numero_telefone)
+VALUES 
+("Erics", "es@gmail.com", "12345678", "000.000.231-00", "48 999999999"),
+("Carlos", "Car@gmail.com", "12345678", "000.424.000-00", "48 999999999"),
+("Jose", "Jos@gmail.com", "12345678", "412.000.000-00", "48 999999999");
+
+INSERT INTO funcionario (nome, email, senha, cpf, numero_telefone, ativo)
+VALUES 
+("Ionela", "I@gmail.com", "12345678", "521.000.000-00", "48 999999999", 1),
+("Nadia", "nadia@gmail.com", "12345678", "000.000.142-00", "48 999999999", 1),
+("Beto", "Be@gmail.com", "12345678", "000.000.000-12", "48 999999999", 1);
 
 INSERT INTO quarto (numero_quarto, capacidade_hospedes, tipo_quarto, preco) VALUES
 (203, 4, "Duplo", 240),
 (105, 2, "Simples", 60),
-(401, 6, "Suíte", 460),
-(303, 2, "Simples", 130);
+(401, 6, "Suíte", 460);
 
-INSERT INTO reserva (data_reserva_inicio, data_reserva_fim, data_editado, data_excluido, usuario_id, quarto_id) VALUES
-("2017-06-15 14:00:00", "2017-06-17 14:00:00", "2017-06-15 14:20:00", "2017-06-15 14:35:00", 3, 2),
-("2020-02-22 10:00:00", "2020-02-27 10:00:00", "2020-02-28 11:20:00", "2020-02-28 12:35:00", 1, 1),
-("2020-11-15 05:00:00", "2020-11-17 06:00:00", "2020-11-15 14:20:00", "2020-11-15 14:35:00", 4, 3),
-("2023-08-15 14:00:00", "2023-08-17 14:00:00", "2023-08-15 14:20:00", "2023-08-15 14:35:00", 2, 4);
+INSERT INTO reserva (data_servico, data_criado, data_finalizado, ativo, quarto_id, cliente_id, funcionario_id)
+VALUES 
+("2017-06-15 14:00:00", "2017-06-12 00:00:00", "2017-06-16 00:00:00", 1, 2, 1, 1),
+("2019-02-23 10:00:00","2017-06-12 00:00:00", "2017-06-16 00:00:00", 1, 1, 3, 2),
+("2022-11-02 22:00:00","2017-06-12 00:00:00", "2017-06-16 00:00:00", 0, 3, 1, 3);
 
+SELECT * FROM cliente;
 
+SELECT * FROM funcionario;
+
+SELECT * FROM reserva;
+
+SELECT * FROM quarto;

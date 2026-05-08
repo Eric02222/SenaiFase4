@@ -3,30 +3,32 @@ const ModalCriarQuarto = ({ open, onClose, title, children, onSave }) => {
 
   return (
     <>
-      <div  onClick={onClose} />
+      <div className="modal-backdrop fade show" onClick={onClose} />
 
       <div
+        className="modal fade show"
         tabIndex={-1}
         role="dialog"
+        style={{ display: "block" }}
         aria-hidden={!open}
         onClick={onClose}
       >
-        <div role="document" onClick={(e) => e.stopPropagation()}>
-          <div >
-            <div >
-              <h5 >{title}</h5>
-              <button type="button" aria-label="Close" onClick={onClose} />
+        <div className="modal-dialog" role="document" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">{title}</h5>
+              <button type="button" className="btn-close" aria-label="Close" onClick={onClose} />
             </div>
 
-            <div >
+            <div className="modal-body">
               {children}
             </div>
 
-            <div >
-              <button type="button"  onClick={onClose}>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" onClick={onClose}>
                 Fechar
               </button>
-              <button type="button"  onClick={onSave}>
+              <button type="button" className="btn btn-primary" onClick={onSave}>
                 Salvar
               </button>
             </div>

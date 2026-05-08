@@ -100,16 +100,14 @@ function ListaReservas() {
   }
 
   return (
-    <div >
+    <div className="container mt-4">
       <h2>Lista Reservas</h2>
 
-      <table >
+      <table className="table table-bordered">
         <thead>
           <tr>
-            <th>Cliente:</th>
             <th>Data de Entrada:</th>
             <th>Data de Entrada::</th>
-            <th>Valor Reserva:</th>
           </tr>
 
         </thead>
@@ -119,11 +117,11 @@ function ListaReservas() {
               <td>{r.data_reserva_inicio}</td>
               <td>{r.data_reserva_fim}</td>
               <td>
-                <button onClick={() => abrirModalEditar(r)}>
+                <button className="btn btn-primary" onClick={() => abrirModalEditar(r)}>
                   Editar
                 </button>
                 &nbsp;
-                <button onClick={() => remover(r.id_reserva)}>
+                <button className="btn btn-danger" onClick={() => remover(r.id_reserva)}>
                   Excluir
                 </button>
               </td>
