@@ -34,6 +34,7 @@ CREATE TABLE reserva (
     data_reserva_inicio DATETIME,
 	data_criado DATETIME,
     data_excluido DATETIME,
+    data_editado DATETIME,
     data_reserva_fim DATETIME,
     ativo INT DEFAULT 1,
     quarto_id INT,

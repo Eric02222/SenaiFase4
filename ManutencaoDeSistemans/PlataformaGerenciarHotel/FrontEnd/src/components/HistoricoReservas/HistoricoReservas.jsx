@@ -22,15 +22,14 @@ function HistoricoReservas() {
 
   return (
     <div className="container mt-4">
-      <h2>Lista Reservas</h2>
+      <h2>Historico Reservas</h2>
 
       <table className="table table-bordered">
         <thead>
           <tr>
-            <th>Cliente:</th>
             <th>Data de Entrada:</th>
-            <th>Data de Entrada::</th>
-            <th>Valor Reserva:</th>
+            <th>Data de Saida:</th>
+            <th>Data de Excluido:</th>
           </tr>
 
         </thead>
@@ -39,6 +38,7 @@ function HistoricoReservas() {
             <tr key={r.id_reserva}>
               <td>{r.data_reserva_inicio}</td>
               <td>{r.data_reserva_fim}</td>
+              <td>{r.data_excluido}</td>
             </tr>
           ))}
         </tbody>

@@ -22,7 +22,7 @@ function ListagemQuartos() {
   //dados para criar quarto
   const [numeroQuarto, setNumeroQuarto] = useState("")
   const [capacidadeHospedes, setCapacidadeHospedes] = useState("")
-  const [tipoQuarto, setTipoQuarto] = useState("")
+  const [tipoQuarto, setTipoQuarto] = useState("Simples")
   const [preco, setPreco] = useState("")
 
 
@@ -104,11 +104,11 @@ function ListagemQuartos() {
       const ok = await postQuartos(data);
 
       if (ok === "") {
-        alert("Não foi possivel fazer reserva!");
+        alert("Não foi possivel adicionar quarto!");
         return false;
       }
 
-      alert("Reserva feito com sucesso!");
+      alert("Quarto salvo com sucesso!");
       fecharModal();
 
     } catch (error) {
