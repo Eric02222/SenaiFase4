@@ -1,17 +1,100 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Primeiros passos Flask</title>
 </head>
-<body>
-    <h1>Passo 2 formulario</h1>
 
-    <form action="/enviar" method="POST">
-        <label for="nome">Digite seu noem:</label>
-        <input type="text" name="nome" required>
-        <button type="submit">Enviar</button>
-    </form>
+<body>
+    <div>
+        <h1>Passo 2 formulario</h1>
+
+        <form action="/enviar" method="POST">
+            <label for="nome">Digite seu noem:</label>
+            <input type="text" name="nome" required>
+            <button type="submit">Enviar</button>
+        </form>
+
+    </div>
+
+
+    <div>
+
+        <h1>Passo 3 - Enviar imagem para o Flask</h1>
+
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <label for="imagem">Escolha uma imagem:</label>
+            <input type="file" id="imagem" name="imagem" accept="imagem/*" required>
+            <button type="submit">Enviar imagem</button>
+        </form>
+
+    </div>
+
+    <div>
+        <h1>Passo 4 - Enviar imagem e coordenadas</h1>
+
+        <form id="formRecorte">
+            <div>
+                <label for="imagem">Escolha uma imagem:</label>
+                <input type="file" id="imagem" name="imagem" accept="image/*" required>
+            </div>
+
+            <div>
+                <label for="x">X:</label>
+                <input type="number" id="x" name="x" required>
+            </div>
+
+            <div>
+                <label for="y">Y:</label>
+                <input type="number" id="y" name="y" required>
+            </div>
+
+            <div>
+                <label for="w">Largura:</label>
+                <input type="number" id="w" name="w" required>
+            </div>
+
+            <div>
+                <label for="h">Altura:</label>
+                <input type="number" id="h" name="h" required>
+            </div>
+
+            <div>
+                <label for="nome_saida">Nome do novo arquivo:</label>
+                <input type="text" id="nome_saida" name="nome_saida" required>
+            </div>
+            <button type="submit">Enviar imagem</button>
+        </form>
+
+        <p id="resultado"></p>
+    </div>
+
+
+    <script>
+        const form = document.getElementById("formRecorte");
+        const resultado = document.getElementById("resultado")
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const dados = new FormData(form);
+            const res = await fetch("/recortar", {
+                method: "POST",
+                body: dados
+            });
+
+            const json = await res.json();
+
+            if(res.ok){
+                resultado.textContent = `Sucesso: ${json.mensagem} - ${json.arquivo}`;
+            }else{
+                resultado.textContent = `Erro: ${json.mensagem}`;
+            }
+        })
+    </script>
+
 </body>
+
 </html>
