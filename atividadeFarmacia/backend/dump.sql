@@ -24,9 +24,6 @@ dosagem VARCHAR(100),
 marca VARCHAR(50),
 quantidade INT,
 estoque_minimo INT(10),
-fornecedor_id INT,
-FOREIGN KEY (fornecedor_id)
-REFERENCES fornecedor (id)
 );
 
 CREATE TABLE movimentacao(
@@ -34,12 +31,15 @@ id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 data_adicionado DATETIME,
 data_edicao DATETIME,
 data_exclusao DATETIME,
+nome_remedio VARCHAR(255) NOT NULL,
+tipo_remedio VARCHAR(100),
+dosagem_remedio VARCHAR(100),
+marca_remedio VARCHAR(50),
+quantidade_remedio INT, 
 usuario_id INT,
-medicamento_id INT,
 FOREIGN KEY (usuario_id)
 REFERENCES usuario (id),
-FOREIGN KEY (medicamento_id)
-REFERENCES medicamento (id)
+
 );
 
 INSERT INTO usuario (nome, email, senha, cpf)

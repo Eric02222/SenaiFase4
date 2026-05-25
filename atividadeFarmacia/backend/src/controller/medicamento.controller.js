@@ -3,32 +3,32 @@ import database from "../config/database.js";
 export const novoMedicamento = async (req, res) => {
     try {
 
-        const {nome, tipo, dosagem, marca, quantidade, estoque_minimo} = req.body;
+        const { nome, tipo, dosagem, marca, quantidade, estoque_minimo } = req.body;
 
 
         // VALIDAÇÕES
         if (!nome || nome.trim() === "") {
-            return res.status(400).json({success: false, message: "Informe o nome do medicamento."});
+            return res.status(400).json({ success: false, message: "Informe o nome do medicamento." });
         }
 
         if (!tipo || tipo.trim() === "") {
-            return res.status(400).json({success: false, message: "Informe o tipo do medicamento."});
+            return res.status(400).json({ success: false, message: "Informe o tipo do medicamento." });
         }
 
         if (!dosagem || dosagem.trim() === "") {
-            return res.status(400).json({success: false, message: "Informe a dosagem."});
+            return res.status(400).json({ success: false, message: "Informe a dosagem." });
         }
 
         if (!marca || marca.trim() === "") {
-            return res.status(400).json({success: false, message: "Informe a marca."});
+            return res.status(400).json({ success: false, message: "Informe a marca." });
         }
 
         if (quantidade == null || quantidade < 0) {
-            return res.status(400).json({success: false, message: "Quantidade inválida."});
+            return res.status(400).json({ success: false, message: "Quantidade inválida." });
         }
 
         if (estoque_minimo == null || estoque_minimo < 0) {
-            return res.status(400).json({success: false, message: "Estoque mínimo inválido."});
+            return res.status(400).json({ success: false, message: "Estoque mínimo inválido." });
         }
 
         // VERIFICA SE JÁ EXISTE
@@ -38,13 +38,18 @@ export const novoMedicamento = async (req, res) => {
         );
 
         if (medicamentoExistente.length > 0) {
-            return res.status(400).json({success: false, message: "Medicamento já cadastrado." });
+            return res.status(400).json({ success: false, message: "Medicamento já cadastrado." });
         }
 
         const [resultado] = await database.query(
             `INSERT INTO medicamento( nome, tipo, dosagem, marca, quantidade, estoque_minimo) VALUES (?, ?, ?, ?, ?, ?)`,
             [nome, tipo, dosagem, marca, quantidade, estoque_minimo
             ]
+        );
+
+        await database.query(
+            `INSERT INTO movimentacao( data_adicionado, nome_remedio, tipo_remedio, dosagem_remedio, marca_remedio, quantidade_remedio) VALUES (CURRENT_TIMESTAMP(), ?, ?, ?, ?, ?, )`,
+            [nome, tipo, dosagem, marca, quantidade]
         );
 
         return res.status(201).json({
@@ -69,7 +74,7 @@ export const editaMedicamento = async (req, res) => {
 
         const { id } = req.params;
 
-        const { nome, tipo, dosagem, marca, quantidade, estoque_minimo} = req.body;
+        const { nome, tipo, dosagem, marca, quantidade, estoque_minimo } = req.body;
 
         // VERIFICA SE EXISTE
         const [medicamento] = await database.query(
@@ -98,19 +103,19 @@ export const editaMedicamento = async (req, res) => {
         }
 
         if (!dosagem || dosagem.trim() === "") {
-            return res.status(400).json({success: false, message: "Informe a dosagem."});
+            return res.status(400).json({ success: false, message: "Informe a dosagem." });
         }
 
         if (!marca || marca.trim() === "") {
-            return res.status(400).json({success: false, message: "Informe a marca."});
+            return res.status(400).json({ success: false, message: "Informe a marca." });
         }
 
         if (quantidade == null || quantidade < 0) {
-            return res.status(400).json({success: false, message: "Quantidade inválida."});
+            return res.status(400).json({ success: false, message: "Quantidade inválida." });
         }
 
         if (estoque_minimo == null || estoque_minimo < 0) {
-            return res.status(400).json({success: false, message: "Estoque mínimo inválido."});
+            return res.status(400).json({ success: false, message: "Estoque mínimo inválido." });
         }
 
         // ATUALIZA
@@ -119,17 +124,30 @@ export const editaMedicamento = async (req, res) => {
             [nome, tipo, dosagem, marca, quantidade, estoque_minimo, id]
         );
 
-        return res.status(200).json({success: true, message: "Medicamento atualizado com sucesso."});
+        await database.query(
+            `INSERT INTO movimentacao( data_edicao, nome_remedio, tipo_remedio, dosagem_remedio, marca_remedio, quantidade_remedio) VALUES (CURRENT_TIMESTAMP(), ?, ?, ?, ?, ?, )`,
+            [nome, tipo, dosagem, marca, quantidade]
+        );
+
+        return res.status(200).json({ success: true, message: "Medicamento atualizado com sucesso." });
 
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ success: false, message: "Erro ao editar medicamento."});
+        return res.status(500).json({ success: false, message: "Erro ao editar medicamento." });
     }
 }
 
 export const excluiMedicamento = async (req, res) => {
     try {
         const id = req.params;
+
+        const [medicamento] = await database.query(
+            `SELECT id FROM medicamento WHERE id = ?`, [id]);
+
+        await database.query(
+            `INSERT INTO movimentacao( data_exclusao ) VALUES (CURRENT_TIMESTAMP(), ?, ?, ?, ?, ?, )`,
+            [medicamento.nome, medicamento.tipo, medicamento.dosagem, medicamento.marca, medicamento.quantidade]
+        );
 
         if (id <= 0) {
             return res.status(400).json({ message: "Medicamento não encontrado", success: false })
@@ -140,6 +158,7 @@ export const excluiMedicamento = async (req, res) => {
         if (rows.affectRows == 0) {
             return res.status(400).json({ messagem: "Não foi possivel excluir este medicamento", success: false })
         }
+
 
         return res.status(200).json({ message: " Medicamento excluido com sucesso", success: true })
     } catch (error) {
