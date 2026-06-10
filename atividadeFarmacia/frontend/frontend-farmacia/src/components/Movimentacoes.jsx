@@ -18,10 +18,6 @@ export default function Medicamentos() {
     const [editando, setEditando] = useState(false);
     const [idEditando, setIdEditando] = useState(null);
 
-    const [procurarMedicamento, setProcurarMedicamento] = useState('')
-    const [termoBusca, setTermoBusca] = useState('');
-
-
     // LISTAR MEDICAMENTOS
     const carregarMedicamentos = async () => {
 
@@ -49,19 +45,6 @@ export default function Medicamentos() {
             [e.target.name]: e.target.value
         });
     };
-
-    const handleProcuraMedicamento = (e) => {
-        setProcurarMedicamento(e.target.value)
-    }
-
-    const handleBuscaMedicamento = (e) => {
-        e.preventDefault();
-        setTermoBusca(procurarMedicamento);
-    }
-
-    const filtroMedicamentos = medicamentos.filter((medicamento) =>
-        [medicamento.nome, medicamento.tipo, medicamento.marca].join(" ").toLowerCase().includes(procurarMedicamento.toLowerCase())
-    );
 
     // SALVAR
     const salvarMedicamento = async (e) => {
@@ -201,26 +184,14 @@ export default function Medicamentos() {
 
                     {
                         editando
-                            ? "Atualizar Medicamento"
-                            : "Cadastrar Medicamento"
+                        ? "Atualizar Medicamento"
+                        : "Cadastrar Medicamento"
                     }
 
                 </button>
 
             </form>
 
-            <form onSubmit={handleBuscar} >
-                <label htmlFor="procurar">Buscar medicamento:</label>
-                <input 
-                    type="text" 
-                    id='procurar' 
-                    value={procurarMedicamento} 
-                    onChange={handleProcuraMedicamento} 
-                    placeholder='Digite as informações do medicamento' 
-                />
-                <button type="submit">Buscar</button>
-                
-            </form>
             <table
                 border="1"
                 cellPadding="10"
@@ -245,44 +216,38 @@ export default function Medicamentos() {
 
                 </thead>
 
-                {filtroMedicamentos.length > 0 ? (
-                    <tbody>
+                <tbody>
 
-                        {
-                            filtroMedicamentos.map((medicamento) => (
+                    {
+                        medicamentos.map((medicamento) => (
 
-                                <tr key={medicamento.id}>
+                            <tr key={medicamento.id}>
 
-                                    <td>{medicamento.id}</td>
-                                    <td>{medicamento.nome}</td>
-                                    <td>{medicamento.tipo}</td>
-                                    <td>{medicamento.dosagem}</td>
-                                    <td>{medicamento.marca}</td>
-                                    <td>{medicamento.quantidade}</td>
-                                    <td>{medicamento.estoque_minimo}</td>
+                                <td>{medicamento.id}</td>
+                                <td>{medicamento.nome}</td>
+                                <td>{medicamento.tipo}</td>
+                                <td>{medicamento.dosagem}</td>
+                                <td>{medicamento.marca}</td>
+                                <td>{medicamento.quantidade}</td>
+                                <td>{medicamento.estoque_minimo}</td>
 
-                                    <td>
+                                <td>
 
-                                        <button
-                                            onClick={() =>
-                                                editarMedicamento(medicamento)
-                                            }
-                                        >
-                                            Editar
-                                        </button>
+                                    <button
+                                        onClick={() =>
+                                            editarMedicamento(medicamento)
+                                        }
+                                    >
+                                        Editar
+                                    </button>
 
-                                    </td>
+                                </td>
 
-                                </tr>
-                            ))
-                        }
+                            </tr>
+                        ))
+                    }
 
-                    </tbody>
-                ) : (
-                    <p >
-                        Nenhum Usuario encontrado.
-                    </p>
-                )}
+                </tbody>
 
             </table>
 

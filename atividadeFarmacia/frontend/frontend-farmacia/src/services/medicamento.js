@@ -30,3 +30,14 @@ export async function patchMedicamento(id, data) {
 
     return r;
 }
+
+export async function deleteMedicamento(id) {
+    const res = await api.delete(`/medicamentos/${id}`)
+
+    let r = "";
+    if (res.status === 201) {
+        r = res.message;
+    }
+
+    return r;
+}
