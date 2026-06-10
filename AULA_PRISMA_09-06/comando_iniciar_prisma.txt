@@ -1,0 +1,152 @@
+Link Documentação: 
+https://www.prisma.io/docs/prisma-orm/quickstart/mysql
+https://www.prisma.io/docs/orm/core-concepts/supported-databases/mysql
+
+#### INICIAR PROJETO
+
+npm init
+
+#### INICIAR TIPESCRIPT NO PROJETO
+
+npm install typescript tsx @types/node --save-dev
+npx tsc --init
+
+#### INSTALACAO DAS DEPENDENCIAS NECESSARIAS
+
+npm install prisma @types/node --save-dev
+npm install @prisma/client @prisma/adapter-mariadb dotenv
+
+** prisma- A CLI do Prisma para executar comandos como prisma init, prisma migrate, eprisma generate
+
+** @prisma/client- A biblioteca Prisma Client para consultar seu banco de dados
+
+** @prisma/adapter-mariadb- O adaptador de driver MySQL/MariaDB que conecta o Prisma Client ao seu banco de dados.
+
+** dotenv- Carrega variáveis ​​de ambiente do seu arquivo .env
+
+#### CONFIGURAR O ARQUIVO tsconfig.json PARA COMPATIBILIDADE COM ESM (ECMAScript Modules)
+
+Obs.: Apaga tudo do arquivo e cola o codigo abaixo.
+
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "target": "ES2023",
+    "strict": true,
+    "esModuleInterop": true,
+    "ignoreDeprecations": "6.0"
+  }
+}
+
+#### ATUALIZACAO package.json PARA ACEITAR ESM (module)
+
+{
+  "type": "module"
+}
+
+#### INICIALIZACAO PRISMA ORM
+
+Agora você pode invocar a CLI do Prisma prefixando-a com npx:
+
+npx prisma
+
+Em seguida, configure seu projeto Prisma ORM criando seu arquivo de esquema Prisma com o seguinte comando:
+
+npx prisma init --datasource-provider mysql --output ../generated/prisma
+
+Este comando realiza algumas tarefas:
+
+** Cria um prisma/diretório com um schema.prisma arquivo contendo sua conexão de banco de dados e modelos de esquema.
+** Cria um .env arquivo no diretório raiz para variáveis ​​de ambiente.
+** Cria um prisma.config.ts arquivo para configuração do Prisma.
+
+
+#### ATUALIZE SEU ARQUIVO .env COM OS DETALHES DA STRING DE CONEXÃO MYSQL
+
+DATABASE_URL="mysql://username:password@localhost:3306/mydb"
+DATABASE_USER="username"
+DATABASE_PASSWORD="password"
+DATABASE_NAME="mydb"
+DATABASE_HOST="localhost"
+DATABASE_PORT=3306
+
+Substitua os espaços reservados pelas suas credenciais reais do banco de dados:
+
+** username: Seu nome de usuário do MySQL
+** password: Sua senha do MySQL
+** localhost:3306: Seu host e porta MySQL
+** mydb: Nome do seu banco de dados
+
+#### ABRA O prisma/schema.prisma E ADICIONE OS MODELOS DE DADOS
+
+model User { 
+  id    Int     @id @default(autoincrement()) 
+  email String  @unique
+  name  String?
+  posts Post[]
+} 
+model Post { 
+  id        Int     @id @default(autoincrement()) 
+  title     String
+  content   String? @db.Text
+  published Boolean @default(false) 
+  author    User    @relation(fields: [authorId], references: [id]) 
+  authorId  Int
+} 
+
+
+
+#### CRIE E APLIQUE SUA PRIMEIRA MIGRAÇÃO
+
+Este comando cria as tabelas do banco de dados com base no seu esquema.
+
+npx prisma migrate dev --name init
+
+Agora execute o seguinte comando para gerar o cliente Prisma:
+
+npx prisma generate
+
+
+#### INSTANCIAR CLIENTE PRISMA
+
+import "dotenv/config";
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
+import { PrismaClient } from "../generated/prisma/client";
+const adapter = new PrismaMariaDb({
+  host: process.env.DATABASE_HOST,
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE_NAME,
+  connectionLimit: 5,
+});
+const prisma = new PrismaClient({ adapter });
+export { prisma };
+
+
+#### EXECUTAR SCRIPT TYPESCRIPT
+
+npx tsx script.ts
+
+#### CRIAR A PASTA LIB
+
+Criar a pasta lib com os arquivos prisma.js com o seguinte codigo: 
+
+import dotenv from "dotenv";
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
+import { PrismaClient } from "../generated/prisma/client";
+
+dotenv.config();
+
+const adapter = new PrismaMariaDb({
+  host: process.env.DATABASE_HOST,
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE_NAME,
+  connectionLimit: 5,
+});
+const prisma = new PrismaClient({ adapter });
+
+export { prisma };
+
+#### EXEMPL
