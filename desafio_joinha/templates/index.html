@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio Joinha</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #101820;
+            color: white;
+        }
+
+        .container-registros {
+            margin-top: 20px;
+            width: 640px;
+            max-width: 92vw;
+            background: #1f2937;
+            border-radius: 12px;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: left;
+        }
+
+        h1 {
+            margin-top: 28px;
+            font-size: 34px;
+        }
+
+        p {
+            font-size: 18px;
+        }
+
+        img {
+            width: 640px;
+            max-width: 92vw;
+            border: 4px solid #38bdf8;
+            border-radius: 12px;
+            background: #000;
+        }
+
+        .container-registros {
+            margin-top: 20px;
+            width: 640px;
+            max-width: 92vw;
+            background: #1f2937;
+            border-radius: 12px;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: left;
+        }
+
+        .container-registros h2 {
+            margin-top: 0;
+            font-size: 20px;
+            border-bottom: 2px solid #38bdf8;
+            padding-bottom: 10px;
+        }
+
+        #lista-registros {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        #lista-registros li {
+            background: #374151;
+            margin-bottom: 8px;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #popup {
+            display: none;
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #22c55e;
+            color: white;
+            padding: 18px 30px;
+            border-radius: 12px;
+            font-size: 22px;
+            font-weight: bold;
+            box-shadow: 0 10px 30px #00000066;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="popup">Deu certo! Joinha reconhecido</div>
+
+    <h1>Desafio Joinha</h1>
+    <p>Mostre um joinha para a camera</p>
+
+    <img src="/video_feed" alt="Imagem da webcam">
+
+    <div class="container-registros">
+        <h2>Histórico de Gestos</h2>
+        <ul id="lista-registros">
+        </ul>
+    </div>
+
+    <script>
+        let popupAberto = false;
+        let ultimoGestoRegistrado = "nenhum";
+
+        async function verificarGesto() {
+            const resposta = await fetch('/gesture_status');
+            const dados = await resposta.json()
+            const gestoAtual = dados.gesto;
+
+            if (gestoAtual !== "nenhum" && gestoAtual !== ultimoGestoRegistrado) {
+
+                registrarGestoNaLista(gestoAtual);
+                ultimoGestoRegistrado = gestoAtual;
+
+                if (!popupAberto) {
+                    popupAberto = true;
+                    const popup = document.getElementById('popup');
+                    popup.textContent = `${gestoAtual} reconhecido!`;
+                    popup.style.display = 'block';
+
+                    setTimeout(() => {
+                        popup.style.display = 'none';
+                        popupAberto = false;
+                    }, 2000);
+                }
+
+            } else if (gestoAtual === "nenhum") {
+                ultimoGestoRegistrado = "nenhum";
+            }
+        }
+
+        function registrarGestoNaLista(nomeGesto) {
+            const lista = document.getElementById('lista-registros');
+            const agora = new Date();
+            const horario = agora.toLocaleTimeString('pt-BR');
+
+            // Criamos um ID único para cada gesto (ex: "registro-joinha")
+            const idRegistro = `registro-${nomeGesto.toLowerCase()}`;
+
+            // Tentamos encontrar se essa linha já existe na tela
+            let item = document.getElementById(idRegistro);
+
+            if (item) {
+                const spanHorario = item.querySelector('.horario');
+                spanHorario.textContent = horario;
+
+                item.style.background = "#22c55e"; 
+                setTimeout(() => item.style.background = "#374151", 300); 
+            } else {
+                item = document.createElement('li');
+                item.id = idRegistro; 
+
+                const textoGesto = document.createElement('span');
+                textoGesto.textContent = `${nomeGesto} detectado — `;
+
+                const textoHorario = document.createElement('span');
+                textoHorario.className = 'horario'; 
+                textoHorario.textContent = horario;
+
+                item.appendChild(textoGesto);
+                item.appendChild(textoHorario);
+
+                lista.appendChild(item);
+            }
+        }
+        setInterval(verificarGesto, 500)
+    </script>
+</body>
+
+</html>
