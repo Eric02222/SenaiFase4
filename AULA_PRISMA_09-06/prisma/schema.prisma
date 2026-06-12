@@ -4,7 +4,7 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../generated/prisma/client"
 }
 
@@ -12,7 +12,7 @@ datasource db {
   provider = "mysql"
 }
 
-model User {
+model Useario {
   id    Int     @id @default(autoincrement())
   email String  @unique
   name  String?
@@ -24,7 +24,7 @@ model Post {
   title     String
   content   String? @db.Text
   published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
+  author    Useario @relation(fields: [authorId], references: [id])
   authorId  Int
 }
 
@@ -32,8 +32,53 @@ model Marcas {
   id               Int       @id @default(autoincrement())
   nome             String
   ano_modelo       String?   @db.Text
-  ano_fabricacao   DateTime?
+  ano_fabricacao   String?
   data_cadastro    DateTime?
   data_atualizacao DateTime?
   ativo            Boolean   @default(false)
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  name     String
+  email    String   @unique
+  roles    Role[]
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}
+
+model AuditLog {
+  id          Int         @id @default(autoincrement())
+  entity      String
+  entityId    String
+  action      AuditAction
+  oldData     Json?
+  newData     Json?
+  performedBy String?
+  createAt    DateTime    @default(now())
+}
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+}
+
+model Role {
+  id         Int            @id @default(autoincrement())
+  name       String         @unique
+  permission UserPermission
+
+  users User[]
+}
+
+enum UserPermission {
+  CREATE_USER
+  UPDATE_USER
+  DELETE_USER
+  VIEW_USER
+  CREATE_POST
+  UPDATE_POST
+  DELETE_POST
+  VIEW_POST
 }
