@@ -15,17 +15,6 @@
             color: white;
         }
 
-        .container-registros {
-            margin-top: 20px;
-            width: 640px;
-            max-width: 92vw;
-            background: #1f2937;
-            border-radius: 12px;
-            padding: 20px;
-            box-sizing: border-box;
-            text-align: left;
-        }
-
         h1 {
             margin-top: 28px;
             font-size: 34px;
@@ -43,8 +32,10 @@
             background: #000;
         }
 
-        .container-registros {
+        .container-box {
             margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
             width: 640px;
             max-width: 92vw;
             background: #1f2937;
@@ -52,13 +43,140 @@
             padding: 20px;
             box-sizing: border-box;
             text-align: left;
+            position: relative;
+            overflow: hidden;
         }
 
-        .container-registros h2 {
+        .container-box h2 {
             margin-top: 0;
             font-size: 20px;
             border-bottom: 2px solid #38bdf8;
             padding-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        #painel-maquina {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            padding: 30px;
+            background: #0b111a;
+            border-radius: 12px;
+            border: 2px solid #1f2937;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+            transition: all 0.5s ease;
+        }
+
+        .reactor-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .reactor-ring {
+            position: absolute;
+            border-radius: 50%;
+            transition: all 0.5s ease;
+            animation-play-state: paused !important; 
+        }
+
+        .ring-outer {
+            width: 120px;
+            height: 120px;
+            border: 4px dashed #374151;
+            animation: spin 6s linear infinite;
+        }
+
+        .ring-inner {
+            width: 90px;
+            height: 90px;
+            border: 4px dotted #4b5563;
+            animation: spin-reverse 4s linear infinite;
+        }
+
+        .reactor-core {
+            width: 50px;
+            height: 50px;
+            background: #1f2937;
+            border-radius: 50%;
+            box-shadow: inset 0 0 10px #000;
+            transition: all 0.5s ease;
+        }
+
+        .status-display {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1;
+        }
+
+        #texto-maquina {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: #4b5563;
+            transition: all 0.4s ease;
+        }
+
+        .power-bar-bg {
+            width: 100%;
+            height: 12px;
+            background: #1f2937;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid #374151;
+        }
+
+        .power-level {
+            height: 100%;
+            width: 0%;
+            background: #22c55e;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1), background 0.5s;
+            box-shadow: 0 0 10px #22c55e;
+        }
+
+
+        #painel-maquina.ligada {
+            border-color: #0f4a26;
+            box-shadow: inset 0 0 40px rgba(34, 197, 94, 0.1);
+        }
+
+        #painel-maquina.ligada .reactor-ring {
+            animation-play-state: running !important;
+        }
+        #painel-maquina.ligada .ring-outer {
+            border-color: #22c55e;
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+        }
+        #painel-maquina.ligada .ring-inner {
+            border-color: #38bdf8;
+        }
+
+        #painel-maquina.ligada .reactor-core {
+            background: radial-gradient(circle, #bbf7d0 0%, #22c55e 50%, #166534 100%);
+            box-shadow: 0 0 20px #22c55e, 0 0 40px #22c55e, inset 0 0 10px #fff;
+            animation: pulse-glow 2s ease-in-out infinite alternate;
+        }
+
+        #painel-maquina.ligada #texto-maquina {
+            color: #22c55e;
+            text-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+        }
+
+        #painel-maquina.ligada .power-level {
+            width: 100%;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 20px #22c55e, 0 0 40px rgba(34,197,94,0.4); }
+            100% { box-shadow: 0 0 30px #22c55e, 0 0 60px #22c55e, 0 0 20px #fff; }
         }
 
         #lista-registros {
@@ -77,6 +195,7 @@
             font-size: 16px;
             display: flex;
             justify-content: space-between;
+            transition: background 0.3s ease;
         }
 
         #popup {
@@ -92,6 +211,7 @@
             font-size: 22px;
             font-weight: bold;
             box-shadow: 0 10px 30px #00000066;
+            z-index: 1000;
         }
     </style>
 </head>
@@ -100,12 +220,39 @@
     <div id="popup">Deu certo! Joinha reconhecido</div>
 
     <h1>Desafio Joinha</h1>
-    <p>Mostre um joinha para a camera</p>
+    <p>Mostre um <strong>Joinha</strong> para iniciar o Reator e um <strong>Hangloose</strong> para desligar.</p>
+
+    <div style="margin-bottom: 20px;">
+        <label for="usuario_logar">Entrar Usuario</label>
+        <input type="text" id="usuario_logar">
+        <button onclick="EntrarUsuario()">Entrar</button>
+        <button onclick="Logout()">Logout</button>
+    </div>
 
     <img src="/video_feed" alt="Imagem da webcam">
 
-    <div class="container-registros">
-        <h2>Histórico de Gestos</h2>
+    <div class="container-box">
+        <h2>Painel do Reator</h2>
+        
+        <div id="painel-maquina">
+            <div class="reactor-container">
+                <div class="reactor-ring ring-outer"></div>
+                <div class="reactor-ring ring-inner"></div>
+                <div class="reactor-core"></div>
+            </div>
+            
+            <div class="status-display">
+                <span id="texto-maquina">SISTEMA INATIVO</span>
+                <div class="power-bar-bg">
+                    <div class="power-level"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container-box">
+        <h2>Histórico de Ações</h2>
         <ul id="lista-registros">
         </ul>
     </div>
@@ -113,31 +260,76 @@
     <script>
         let popupAberto = false;
         let ultimoGestoRegistrado = "nenhum";
+        let usuario = "";
+
+        function EntrarUsuario() {
+            usuario = document.getElementById("usuario_logar").value;
+
+            if (usuario == "") {
+                alert("Informe seu nome");
+            } else {
+                alert("Usuario logado");
+                localStorage.setItem("usuario", usuario);
+            }
+        }
+
+        function Logout() {
+            localStorage.removeItem("usuario");
+            alert("Usuario deslogado");
+        }
+
+        function ligarMaquina() {
+            const painel = document.getElementById('painel-maquina');
+            const texto = document.getElementById('texto-maquina');
+            
+            painel.classList.add('ligada');
+            texto.textContent = "ENERGIA MÁXIMA";
+        }
+
+        function desligarMaquina() {
+            const painel = document.getElementById('painel-maquina');
+            const texto = document.getElementById('texto-maquina');
+            
+            painel.classList.remove('ligada');
+            texto.textContent = "SISTEMA INATIVO";
+        }
 
         async function verificarGesto() {
-            const resposta = await fetch('/gesture_status');
-            const dados = await resposta.json()
-            const gestoAtual = dados.gesto;
+            try {
+                const resposta = await fetch('/gesture_status');
+                const dados = await resposta.json();
+                const gestoAtual = dados.gesto;
 
-            if (gestoAtual !== "nenhum" && gestoAtual !== ultimoGestoRegistrado) {
+                if (gestoAtual !== "nenhum" && gestoAtual !== ultimoGestoRegistrado) {
 
-                registrarGestoNaLista(gestoAtual);
-                ultimoGestoRegistrado = gestoAtual;
+                    registrarGestoNaLista(gestoAtual);
+                    ultimoGestoRegistrado = gestoAtual;
 
-                if (!popupAberto) {
-                    popupAberto = true;
-                    const popup = document.getElementById('popup');
-                    popup.textContent = `${gestoAtual} reconhecido!`;
-                    popup.style.display = 'block';
+                    const nomeGesto = gestoAtual.toLowerCase(); 
+                    
+                    if (nomeGesto.includes("joinha")) {
+                        ligarMaquina();
+                    } else if (nomeGesto.includes("hangloose")) {
+                        desligarMaquina();
+                    }
 
-                    setTimeout(() => {
-                        popup.style.display = 'none';
-                        popupAberto = false;
-                    }, 2000);
+                    if (!popupAberto) {
+                        popupAberto = true;
+                        const popup = document.getElementById('popup');
+                        popup.textContent = `${gestoAtual} detectado!`;
+                        popup.style.display = 'block';
+
+                        setTimeout(() => {
+                            popup.style.display = 'none';
+                            popupAberto = false;
+                        }, 2000);
+                    }
+
+                } else if (gestoAtual === "nenhum") {
+                    ultimoGestoRegistrado = "nenhum";
                 }
-
-            } else if (gestoAtual === "nenhum") {
-                ultimoGestoRegistrado = "nenhum";
+            } catch (error) {
+                console.error("Erro ao buscar o status do gesto:", error);
             }
         }
 
@@ -145,37 +337,29 @@
             const lista = document.getElementById('lista-registros');
             const agora = new Date();
             const horario = agora.toLocaleTimeString('pt-BR');
+            
+            const usuarioLogado = localStorage.getItem("usuario") || "Desconhecido";
 
-            // Criamos um ID único para cada gesto (ex: "registro-joinha")
-            const idRegistro = `registro-${nomeGesto.toLowerCase()}`;
+            const item = document.createElement('li');
 
-            // Tentamos encontrar se essa linha já existe na tela
-            let item = document.getElementById(idRegistro);
+            const textoGesto = document.createElement('span');
+            textoGesto.className = 'texto-gesto';
+            textoGesto.textContent = `${nomeGesto} detectado do usuário: ${usuarioLogado}`;
 
-            if (item) {
-                const spanHorario = item.querySelector('.horario');
-                spanHorario.textContent = horario;
+            const textoHorario = document.createElement('span');
+            textoHorario.className = 'horario';
+            textoHorario.textContent = horario;
 
-                item.style.background = "#22c55e"; 
-                setTimeout(() => item.style.background = "#374151", 300); 
-            } else {
-                item = document.createElement('li');
-                item.id = idRegistro; 
+            item.appendChild(textoGesto);
+            item.appendChild(textoHorario);
 
-                const textoGesto = document.createElement('span');
-                textoGesto.textContent = `${nomeGesto} detectado — `;
+            item.style.background = "#22c55e";
+            setTimeout(() => item.style.background = "#374151", 300);
 
-                const textoHorario = document.createElement('span');
-                textoHorario.className = 'horario'; 
-                textoHorario.textContent = horario;
-
-                item.appendChild(textoGesto);
-                item.appendChild(textoHorario);
-
-                lista.appendChild(item);
-            }
+            lista.prepend(item);
         }
-        setInterval(verificarGesto, 500)
+
+        setInterval(verificarGesto, 500);
     </script>
 </body>
 

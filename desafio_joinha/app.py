@@ -1,9 +1,15 @@
 from flask import Flask, render_template, Response, jsonify
 import cv2
 import mediapipe as mp
+import os
+import time
 
 app = Flask(__name__)
 gesto_atual = "nenhum"
+
+# Garante que a pasta 'uploads' exista
+if not os.path.exists('uploads'):
+    os.makedirs('uploads')
 
 mp_maos = mp.solutions.hands
 mp_desenho = mp.solutions.drawing_utils
@@ -33,7 +39,6 @@ def eh_joinha(landmarks):
     )
     
     return polegar_para_cima and outros_dedos_dobrados
-
 
 def eh_hangloose(landmarks):
     polegar_para_cima = (
@@ -72,6 +77,10 @@ def gerar_frames():
         print("Erro: não foi possivel abrir a camera.")
         return
     
+    # Variáveis para controlar os prints
+    ultimo_print_tempo = 0
+    COOLDOWN_PRINT = 3.0  # Espera 3 segundos antes de tirar um novo print
+    
     try:
         while True:
             sucesso, frame = camera.read()
@@ -91,8 +100,11 @@ def gerar_frames():
                         frame, mao, mp_maos.HAND_CONNECTIONS
                     )
                     
+                    detectou_gesto_valido = False
+                    
                     if eh_joinha(mao.landmark):
                         gesto_atual = "joinha"
+                        detectou_gesto_valido = True
                         
                         cv2.putText(
                             frame,
@@ -104,8 +116,9 @@ def gerar_frames():
                             3
                         )
                         
-                    if eh_hangloose(mao.landmark):
+                    elif eh_hangloose(mao.landmark):
                         gesto_atual = "HangLoose"
+                        detectou_gesto_valido = True
                         
                         cv2.putText(
                             frame,
@@ -116,7 +129,23 @@ def gerar_frames():
                             (0, 255, 0),
                             3
                         )
-                        
+                    
+                    # Lógica para salvar o print
+                    if detectou_gesto_valido:
+                        tempo_atual = time.time()
+                        # Verifica se já passou o tempo de cooldown
+                        if tempo_atual - ultimo_print_tempo > COOLDOWN_PRINT:
+                            # Cria um nome de arquivo único com a data e hora
+                            timestamp = time.strftime("%Y%m%d_%H%M%S")
+                            caminho_arquivo = os.path.join('uploads', f'{gesto_atual}_{timestamp}.jpg')
+                            
+                            # Salva a imagem
+                            cv2.imwrite(caminho_arquivo, frame)
+                            print(f"📷 Print salvo em: {caminho_arquivo}")
+                            
+                            # Atualiza o tempo do último print
+                            ultimo_print_tempo = tempo_atual
+                            
             ret, buffer = cv2.imencode('.jpg', frame)
             
             if not ret:
@@ -137,7 +166,6 @@ def video_feed():
         gerar_frames(),
         mimetype='multipart/x-mixed-replace; boundary=frame'
     )
-    
 
 @app.route('/gesture_status')
 def gesture_status():
@@ -146,7 +174,6 @@ def gesture_status():
         "joinha": gesto_atual == "joinha",
         "HangLoose": gesto_atual == "HangLoose"
     })
-    
     
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
