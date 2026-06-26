@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/Login'
 import Registrar from './pages/Registrar'
 import Perfil from './pages/Perfil'
+import Chat from './pages/Chat'
 
 function App() {
 
@@ -15,6 +16,9 @@ function App() {
 
           {/* Rotas Privadas/protegidas: apenas quem esta autenticado pode acessar*/}
           <Route path='/perfil' element={<Perfil />} />
+
+          <Route path='/chat' element={<Chat />} />
+
 
           {/* Qualquer outra URL fora do nosso sistema rediciona para a tela de login*/}
           <Route path='*' element={<Login />} />

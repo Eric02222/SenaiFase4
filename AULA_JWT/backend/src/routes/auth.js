@@ -112,4 +112,14 @@ routerAuth.post('/refresh', async (req, res) => {
     }
 });
 
+routerAuth.post('/logout', async (req, res) => {
+    const refreshToken = req.cookies.refreshToken;
+
+    if(refreshToken){
+        await db.query("DELETE FROM refresh_token WHERE token = ?", [refreshToken])
+    }
+    res.clearCookie('refreshToken')
+    res.json({message: "login efetuado com sucesso"})
+})
+
 export default routerAuth;

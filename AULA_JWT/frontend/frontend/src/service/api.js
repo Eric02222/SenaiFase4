@@ -35,3 +35,6 @@ clienthttp.interceptors.response.use(
 
     }
 )
+
+
+export default clienthttp;
